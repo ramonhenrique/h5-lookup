@@ -11,9 +11,9 @@ input:
   text is: maria
   
 label:  
-  color: rgb(0, 188, 212)                  
+#  color is: rgb(0, 188, 212)                  
   text is: Selecione valor default
   
 hr:
-  border-color: rgb(0, 188, 212)
+#  border-color: rgb(0, 188, 212)
                 

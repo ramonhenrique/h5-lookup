@@ -1,6 +1,6 @@
 @@ set 
     gridUrl         http://192.168.25.102:4444/wd/hub
-    website         http://192.168.25.214:3080/
+    website         http://192.168.25.102:3080/
 
 @@ table browsers
     | browserName   | gridArgs                            |
@@ -10,6 +10,9 @@
 @@ parameterized using browsers
 Renderização com lookup fechado (${browserName})
     selenium grid ${gridUrl} --page ${website} ${gridArgs}
-        check test.spec
+
+      check test.spec
         
-        run test.js
+      run test.js
+      
+      check test2.spec
