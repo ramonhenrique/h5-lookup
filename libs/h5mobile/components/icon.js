@@ -39,7 +39,7 @@ var HIcon = React.createClass({
         var self = this;
         return (React.createElement('div', {}, [React.createElement('icon', props)]));
     }
-
+ 
 });
 
 module.exports = HIcon;

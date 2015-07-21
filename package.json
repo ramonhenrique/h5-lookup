@@ -51,6 +51,5 @@
     "react": "^0.13.3",
     "react-style-normalizer": "^1.2.8",
     "webpack": "^1.9.10"
-
   }
 }
