@@ -1,6 +1,6 @@
 var React = require('react');
-var h5mixinprops = require('../mixins/h5mixinprops');
-var h5dropdown = require('../mixins/h5dropdown');
+var h5mixinprops = require('./mixins/h5mixinprops');
+var h5dropdown = require('./mixins/h5dropdown');
 
 var HIcon = React.createClass({
     propTypes: {
@@ -39,7 +39,7 @@ var HIcon = React.createClass({
         var self = this;
         return (React.createElement('div', {}, [React.createElement('icon', props)]));
     }
- 
+
 });
 
 module.exports = HIcon;

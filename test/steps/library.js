@@ -39,6 +39,6 @@ module.exports = (function () {
         run(galen);
         next();
     });
-    
+
     return library;
 })();

@@ -1,7 +1,7 @@
 var webpack = require('webpack');
 
 module.exports = {
-    entry: __dirname + "/index.jsx",
+    entry: __dirname + "/lookup.jsx",
     output: {
         path: __dirname,
         filename: "bundle.js"
@@ -10,7 +10,7 @@ module.exports = {
         loaders: [
             {
                 test: /\.less$/,
-                loaders: ["style","css", 'autoprefixer-loader?{browsers:["last 1 version", "> 5%", "Android >= 4"]}', "less"]
+                loaders: ["style","css", "less"]
             },
              {
                 test: /\.lessbkp$/,
