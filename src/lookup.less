@@ -1,3 +1,35 @@
+* {
+    margin: 0px;
+    padding: 0px;
+    font-family: 'FontAwesome';
+}
+
+.hoverRed:hover {
+    color: firebrick !important;
+}
+
+.gira {
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+    animation-name: rotateSpin;
+    animation-duration: 1500ms;
+}
+
+.animationDropDown {
+    opacity: 1;
+    animation-timing-function: ease-in;
+    animation-name: animationIn;
+    animation-duration: 200ms;
+}
+
+.searching {
+    transform: scale(0.8);
+    animation-name: animationSearching;
+    animation-duration: 1500ms;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
+
 .h_lookup_td {
     position: relative;
     height: 72px;
@@ -158,5 +190,23 @@
 }
 
 .focus {
-    corlor: rgb(0, 188, 212)
+    color: rgb(0, 188, 212)
+}
+
+@keyframes rotateSpin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes animationLookup {
+    from {
+        opacity: 1
+    }
+    to {
+        opacity: 0.5;
+    }
 }

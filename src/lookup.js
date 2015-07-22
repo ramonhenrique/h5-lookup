@@ -2,7 +2,7 @@ var React = require('react');
 var h5mixinprops = require('./mixins/h5mixinprops');
 var h5dropdown = require('./mixins/h5dropdown');
 var Icon = require('./icon');
-require('./style/lookup.less');
+require('./lookup.less');
 
 var zIndex= 40;
 var Lookup = React.createClass({
@@ -13,7 +13,6 @@ var Lookup = React.createClass({
         hintText: React.PropTypes.string.isRequired,
         query: React.PropTypes.string.isRequired,
         field: React.PropTypes.string.isRequired,
-        validations: React.PropTypes.array,
         notFoundText: React.PropTypes.string
     },
     getInitialState: function () {
@@ -30,21 +29,16 @@ var Lookup = React.createClass({
     },
     render: function () {
         var self = this;
+        var state = this.props.store;
+        var field=state[this.props.field];
 
-        if (!this.props.store)
-            return console.error("Is necessary propreyty store in input");
+        var lookupdata = field && field.value ? field : "";
 
-        var state = this.props.store.getState();
-        var lookupdata = state.editing[this.props.field] ? state.editing[this.props.field] : "";
-        var error = state.editing_errors[this.props.field];
-
-        if(this.props.validations){
-            var required = this.props.validations.some(function(v){
-                if(v)
-                    return v.name == 'required';
+        if(field.validations){
+            var required = field.validations.some(function(v){
+                return v.name == 'required';
             });
         }
-
 
         if(!Object.keys(this.state.lookupDataBackup).length){
             this.state.lookupDataBackup.display = lookupdata.display;
@@ -107,23 +101,23 @@ var Lookup = React.createClass({
             'h_lookup_LabelSemValue ' + (error ? 'erro' : '')
 
         var listResult = this.state.searchResult ? <div className={classList} >{this.state.searchResult.length > 0 ?
-                  this.state.searchResult.map(function (item, index) {
-                        var classItemList = 'h_lookup_itemList';
-                        if(index == self.state.searchResultIndex){
-                                classItemList = classItemList + ' selected';
-                        }
-                        var propsItemList={};
-                        propsItemList.onTouchTap = function(e){
-                                    e.preventDefault();
-                                    self._click(index);
-                        };
-                        propsItemList.className = classItemList;
-                        return React.createElement('div', propsItemList,
-                             [React.createElement('span', {className: 'h_lookup_span_itemSearch'}, item.display)])
-                    }) : <span className='h_lookup_span_notFoundText'>
-                            {notFoundText}
-                        </span>}</div>
-                    : <span className="fa fa-repeat gira"></span>
+            this.state.searchResult.map(function (item, index) {
+                  var classItemList = 'h_lookup_itemList';
+                  if(index == self.state.searchResultIndex){
+                          classItemList = classItemList + ' selected';
+                  }
+                  var propsItemList={};
+                  propsItemList.onTouchTap = function(e){
+                              e.preventDefault();
+                              self._click(index);
+                  };
+                  propsItemList.className = classItemList;
+                  return React.createElement('div', propsItemList,
+                       [React.createElement('span', {className: 'h_lookup_span_itemSearch'}, item.display)])
+              }) : <span className='h_lookup_span_notFoundText'>
+                      {notFoundText}
+                  </span>}</div>
+              : <span className="fa fa-repeat gira"></span>
 
 
         var listLookup = this.isDropDown() ?
@@ -156,7 +150,7 @@ var Lookup = React.createClass({
                          React.createElement('div', {}, React.createElement(Icon, propsIconSearch)),
 
                          listLookup,
-                         this.getEditingStore()[this.props.field].display ?
+                         this.getEditingField().value.display ?
                                   React.createElement('div', {},
                                      React.createElement(Icon, propsIconClear)) : null]
                         )
@@ -226,15 +220,15 @@ var Lookup = React.createClass({
     },
     clearAndSearch: function(){
         React.findDOMNode(this.refs[this.props.field]).focus();
-        var editing = this.getEditingStore();
+        var field = this.getEditingField();
 
-        if(editing[this.props.field].display != this.state.lookupDataBackup.display){
-            editing[this.props.field].display = this.state.lookupDataBackup.display;
-            editing[this.props.field]._id = this.state.lookupDataBackup._id;
+        if(field.display != this.state.lookupDataBackup.display){
+            field.display = this.state.lookupDataBackup.display;
+            field._id = this.state.lookupDataBackup._id;
         }
         else{
-            editing[this.props.field].display = '';
-            editing[this.props.field]._id = null;
+            field.display = '';
+            field._id = null;
             this.search('');
         }
         this.setState({});
@@ -294,27 +288,24 @@ var Lookup = React.createClass({
             }
     },
     changed: function (ev) {
-        var editing = this.getEditingStore();
-        editing[this.props.field].display = ev.target.value;
-        editing[this.props.field]._id = null;
+        var field = this.getEditingField();
+        field.value={display : ev.target.value,
+        _id : null}
         this.setState({});
     },
     validate: function(field, selected){
         var state = this.props.store.getState();
-        if(state.validations && state.validations[this.props.field]){
-            var editing = field;
-            this.props.store.validate(this.props.field, selected.display)
-        }
+        this.props.store.validate(this.props.field, selected.display)
     },
     selectItem: function(){
         this.closeDropDownlookup();
         var selected = this.state.searchResult[this.state.searchResultIndex];
         this.state.lookupDataBackup._id = selected._id;
         this.state.lookupDataBackup.display = selected.display;
-        var editing = this.getEditingStore()
-        editing[this.props.field]._id = selected._id;
-        editing[this.props.field].display = selected.display;
-        this.validate(editing, selected);
+        var field = this.getEditingField()
+        field.value._id = selected._id;
+        field.value.display = selected.display;
+        this.validate(field, selected);
         this.setState({
             searchingText: null,
             searchResult: [],
@@ -323,9 +314,9 @@ var Lookup = React.createClass({
     },
     cancelSelectItem: function(){
         this.state._searching = false;
-        var editing = this.getEditingStore()
-        editing[this.props.field]._id = this.state.lookupDataBackup._id;
-        editing[this.props.field].display = this.state.lookupDataBackup.display;
+        var field = this.getEditingField()
+        field.value._id = this.state.lookupDataBackup._id;
+        field.value.display = this.state.lookupDataBackup.display;
         this.closeDropDownlookup();
         this.setState({
             searchingText: null,
@@ -333,13 +324,14 @@ var Lookup = React.createClass({
             searchResultIndex: null
         });
     },
-    getEditingStore(){
-        var editing = this.props.store.getState().editing;
-        if(editing[this.props.field] && editing[this.props.field].display)
-           return editing;
+    getEditingValue(){
+        var state = this.props.store.getState();
+        var field=state[this.props.field];
+        if(field && field.display)
+           return field;
         else{
-            editing[this.props.field] = {_id: null, display:null};
-           return editing;
+            field.value = {_id: null, display:null};
+           return field;
         }
     },
     focus: function(e){

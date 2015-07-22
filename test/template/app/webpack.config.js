@@ -1,7 +1,5 @@
-var webpack = require('webpack');
-
 module.exports = {
-    entry: __dirname + "/lookup.jsx",
+    entry: __dirname + "/lookup.view.js",
     output: {
         path: __dirname,
         filename: "bundle.js"
@@ -10,19 +8,11 @@ module.exports = {
         loaders: [
             {
                 test: /\.less$/,
-                loaders: ["style","css", "less"]
-            },
-             {
-                test: /\.lessbkp$/,
                 loader: "style!css!less"
-            },{
-                test: /\.jsx?$/,
-                loaders: ['babel', 'flux-easy'], // 'jsx?harmony&stripTypes', 'flowcheck'],
-                exclude: /node_modules/
             },
             {
-                test: /\.html$/,
-                loaders: ['babel', 'flux-easy'], // 'jsx?harmony&stripTypes', 'flowcheck'],
+                test: /\.js$/,
+                loaders: ['babel'], // 'jsx?harmony&stripTypes', 'flowcheck'],
                 exclude: /node_modules/
             },
             {
@@ -42,8 +32,8 @@ module.exports = {
         colors: true
     },
     plugins: [
-        new webpack.optimize.MinChunkSizePlugin({
-            minChunkSize: 100000000
-        })
+//        new webpack.optimize.MinChunkSizePlugin({
+//            minChunkSize: 100000000
+//        })
     ]
 };
