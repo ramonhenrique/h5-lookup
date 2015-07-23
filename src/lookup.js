@@ -31,20 +31,8 @@ var Lookup = React.createClass({
         var self = this;
         var state = this.props.store;
         var field=state.fields[this.props.field];
-        var error = null;
 
         var lookupdata = field && field.display ? field : "";
-
-        if(field.validations){
-            var required = field.validations.some(function(v){
-                return v.name == 'required';
-            });
-        }
-
-        if(!Object.keys(this.state.lookupDataBackup).length){
-            this.state.lookupDataBackup.display = lookupdata.display;
-            this.state.lookupDataBackup._id = lookupdata._id;
-        }
 
         //Props TD
         var p = /(\d+)/.exec(this.props.className);
@@ -66,14 +54,14 @@ var Lookup = React.createClass({
         propsTextField.fullWidth = true;
         propsTextField.value = lookupdata.display != '' ? lookupdata.display : null;
         propsTextField.errorText = error ? error : ''
-        propsTextField.name = this.props.field;
+        //propsTextField.name = this.props.field;
         propsTextField.floatingLabelText = required ?  "* " + this.props.floatingLabelText  : this.props.floatingLabelText;
         propsTextField.hintText = this.props.hintText;
         propsTextField.onChange = this.changed;
         propsTextField.onKeyUp = this.keyUp;
         propsTextField.onKeyDown = this.keyDown;
         propsTextField.ref = this.props.field;
-        propsTextField.className = 'inputleft h_lookup_textField';
+        propsTextField.className = 'inputleft h_lookup_textField input_'+ this.props.field;
         propsTextField.onFocus = this.focus;
         propsTextField.onBlur = this.blur;
 
@@ -275,7 +263,7 @@ var Lookup = React.createClass({
                     self.state.tmSearch = null;
                     self.state._searching = true;
                     self.setState({});
-                    self.props.lookup[self.props.query](self.state.searchingText, function (err, dados) {
+                    self.props.store[self.props.query](self.state.searchingText, function (err, dados) {
                         if(self.state._searching){
                           self.setState({
                               _searching: false,

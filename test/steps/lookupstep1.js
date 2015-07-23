@@ -13,27 +13,19 @@ module.exports = function (library, expect, h5_test) {
         h5_test.serve('app/index.html');
         h5_test.pack('app', next);
     })
-
     .then('validar ([^\u0000]*)', function (spec, next) {
         expect(spec).to.be.an('string');
         h5_test.replace('___spec___', spec);
         h5_test.check('test/test.spec');
-        // chamar o galen
         next();
-    });
+    })
+    .when('clicar no (.*)', function (componente, next) {
+      h5_test.replace("___componente___", componente);
+      h5_test.run("test/test.js");
+      next();
+    })
 };
 
-//    .and('validar $spec_lookup_com_foco se o campo tiver foco', function (spec_lookup_com_foco) {
-//        this.TypeInput = function (driver) {
-//            GalenPages.extendPage(this, driver, {
-//                input: "input[name='default']"
-//                input.click();
-//            });
-//        };
-//        fs.writeFileSync('./gerado/galen/view.spec', spec_lookup_com_foco)
-//        run(galen);
-//        next();
-//    });
 
 
 

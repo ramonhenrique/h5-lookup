@@ -3,38 +3,84 @@ Funcionalidade: Componente para selecionar um registro de uma tabela
   Eu, como programador
   Desejo utilizar o componete h5-lookup
 
-Cenário: Renderização com lookup fechado sem foco
+Cenário: Renderização com lookup fechado - [caso]
   Dado que o estado da estória é [estado]
   Quando eu renderizar o [caso]
   Entao validar [spec]
   
   Exemplos:
-    caso                  | estado          | spec
-    ------------------------------------------------------------
-    campo vazio sem erros |  id_pessoa:{    | input:
-                          |     display:"", |   text is:
-                          |     _id:null    | label:
-                          |     }           |   text is: Default
-                          |                 |
-    ------------------------------------------------------------
+    caso              | estado              | spec
+    ---------------------------------------------------------------------------------
+    @only
+    campo vazio       | id_pessoa:{         | input:
+                      |    display:"",      |   text is:
+                      |    _id:null         | span_semValue:
+                      | }                   |   text is: Default
+                      |                     | container:
+                      |                     |
+    ---------------------------------------------------------------------------------
+    campo com valor   | id_pessoa:{         | input:
+                      |   display:"Ana",    |   text is: Ana
+                      |   _id:1001          | span_comValue:
+                      | }                   |   text is: Default
+    ---------------------------------------------------------------------------------
+    verificar awesome |  id_pessoa:{        | icon_lupa:
+                      |    display:"Maria", |   css font-size is: 14px
+                      |    _id:null         |   width: 14px
+                      |  }                  |   css color is:  rgba(158, 158, 158, 1)
+                      |                     |   css left is: 0px
+                      |                     | icon_clear:
+                      |                     |   css right is: 10px
+                      |                     |   width: 10px
+                      |                     |   css color is: rgba(158, 158, 158, 1)
+                      |                     |   css position is: absolute
+                      |                     |   css bottom is: 18px
+                      |                     |   css font-size is: 14px
+    ---------------------------------------------------------------------------------
 
-#  Cenário: Renderização com lookup fechado
-#  Dado que o estado da estória é [estado]
-#  Quando eu renderizar o [caso]
-#  Entao se o campo não tiver foco, validar [spec_lookup_sem_foco]
-#  E se o campo tiver foco, validar [spec_lookup_com_foco]
-#
-#Exemplos:
-#  caso                          | estado                |  spec_lookup_sem_foco                         |  spec_lookup_com_foco
-#  -------------------------------------------------------------------------------------------------------------------------------
-#  campo vazio sem erros         | { campo:              |  input[name="default"]                        | label[class="h_lookup_label h_lookup_focus"]~spam
-#                                |     editing:{         |    text is:                                   |   color: rgb(0, 188, 212)
-#                                |       c1:""           |                                               |   text is: Selecione valor default
-#                                |     }                 |  label[class="h_lookup_label semValue"]~spam  |
-#                                | }                     |    color: rgba(0, 0, 0, 0.298039)             | hr[class="h_lookup_hr_focus"]
-#                                |                       |    text is: Default                           |   border-color: rgb(0, 188, 212)
-#                                |                       |                                               |
-#  -----------------------------------------------------------------------------------------------------------------------------------
+Cenário: Renderização com lookup fechado com foco - [caso]
+  Dado que o estado da estória é [estado]
+  Quando eu renderizar o [caso]
+  E clicar no [componente]
+  Entao validar [spec]
+
+  Exemplos:
+    caso                  | estado            | spec                                            | componente
+    --------------------------------------------------------------------------------------------|------------------------
+    campo vazio sem erros | id_pessoa:{       | label_comValueFocus:                            | input[name="id_pessoa"]
+                          |   display:"",     |   color: rgb(0, 188, 212)                       |
+                          |   _id:null        |   text is: Default                              |
+                          | }                 |   position: absolute                            |
+                          |                   |   line-height: 22px                             |
+                          |                   |   opacity: 1                                    |
+                          |                   | hr                                              |
+                          |                   |   border-bottom: solid 1px rgb(224, 224, 224)   |
+                          |                   |   position: absolute                            |
+                          |                   |   width: 100%                                   |
+                          |                   |   bottom: 8px                                   |
+                          |                   |   margin: 0                                     |
+                          |                   |   box-sizing: content-box                       |
+                          |                   |   height: 0                                     |
+                          |                   | hr_focus                                        |
+                          |                   |   border-style: none none solid                 |
+                          |                   |   border-bottom-width: 2px                      |
+                          |                   |   position: absolute                            |
+                          |                   |   width: 100%                                   |
+                          |                   |   bottom: 8px                                   |
+                          |                   |   margin: 0px                                   |
+                          |                   |   box-sizing: content-box                       |
+                          |                   |   height: 0px                                   |
+                          |                   |   border-color: rgb(0, 188, 212)                |
+                          |                   |   transform: scaleX(1)                          |
+                          |                   | span_semValue:                                  |
+                          |                   |   position: absolute                            |
+                          |                   |   line-height: 22px                             |
+                          |                   |   opacity: 1                                    |
+                          |                   |   color: rgba(0, 0, 0, 0.298039)                |
+                          |                   |   top: 38px                                     |
+                          |                   |   left: 18px                                    |
+                          |                   |   text is: Selecione valor default              |
+    ---------------------------------------------------------------------------------------------------------------------
   
 #Cenário: Renderização com lookup fechado com valor
 #  Dado que eu tenho um estado em uma estoria
@@ -102,10 +148,22 @@ Cenário: Renderização com lookup fechado sem foco
 #  Dado 
 #  Quando
 #  Então
-#  
-#
-#
-#
-#
-#
-#
+
+
+
+#testar required, dever estar no field
+
+# if(field.validations){
+#            var required = field.validations.some(function(v){
+#                return v.name == 'required';
+#            });
+#        }
+
+
+# testar ESC
+
+
+#        if(!Object.keys(this.state.lookupDataBackup).length){
+#            this.state.lookupDataBackup.display = lookupdata.display;
+#            this.state.lookupDataBackup._id = lookupdata._id;
+#        }
