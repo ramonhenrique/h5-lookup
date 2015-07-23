@@ -30,9 +30,10 @@ var Lookup = React.createClass({
     render: function () {
         var self = this;
         var state = this.props.store;
-        var field=state[this.props.field];
+        var field=state.fields[this.props.field];
+        var error = null;
 
-        var lookupdata = field && field.value ? field : "";
+        var lookupdata = field && field.display ? field : "";
 
         if(field.validations){
             var required = field.validations.some(function(v){
@@ -150,7 +151,7 @@ var Lookup = React.createClass({
                          React.createElement('div', {}, React.createElement(Icon, propsIconSearch)),
 
                          listLookup,
-                         this.getEditingField().value.display ?
+                         this.getEditingValue().display ?
                                   React.createElement('div', {},
                                      React.createElement(Icon, propsIconClear)) : null]
                         )
@@ -220,7 +221,7 @@ var Lookup = React.createClass({
     },
     clearAndSearch: function(){
         React.findDOMNode(this.refs[this.props.field]).focus();
-        var field = this.getEditingField();
+        var field = this.getEditingValue();
 
         if(field.display != this.state.lookupDataBackup.display){
             field.display = this.state.lookupDataBackup.display;
@@ -288,7 +289,7 @@ var Lookup = React.createClass({
             }
     },
     changed: function (ev) {
-        var field = this.getEditingField();
+        var field = this.getEditingValue();
         field.value={display : ev.target.value,
         _id : null}
         this.setState({});
@@ -302,7 +303,7 @@ var Lookup = React.createClass({
         var selected = this.state.searchResult[this.state.searchResultIndex];
         this.state.lookupDataBackup._id = selected._id;
         this.state.lookupDataBackup.display = selected.display;
-        var field = this.getEditingField()
+        var field = this.getEditingValue()
         field.value._id = selected._id;
         field.value.display = selected.display;
         this.validate(field, selected);
@@ -314,7 +315,7 @@ var Lookup = React.createClass({
     },
     cancelSelectItem: function(){
         this.state._searching = false;
-        var field = this.getEditingField()
+        var field = this.getEditingValue()
         field.value._id = this.state.lookupDataBackup._id;
         field.value.display = this.state.lookupDataBackup.display;
         this.closeDropDownlookup();
@@ -325,8 +326,8 @@ var Lookup = React.createClass({
         });
     },
     getEditingValue(){
-        var state = this.props.store.getState();
-        var field=state[this.props.field];
+        var state = this.props.store;
+        var field=state.fields[this.props.field];
         if(field && field.display)
            return field;
         else{
