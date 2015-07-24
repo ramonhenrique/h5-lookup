@@ -1,13 +1,16 @@
 ===========================================
-container             css  .input_id_pessoa
-input                 css  .input_id_pessoa input
-label                 css  .input_id_pessoa .label
-placeholder           css  .input_id_pessoa .placeholder
-icon_lupa             css  icon[class="fa fa-search h_lookup_iconSearch"]
-icon_clear            css  icon[class="fa fa-times-circle hoverRed h_lookup_iconClear"]
-label_comValueFocus   css  label[class="h_lookup_LabelComValue focus"]
-hr                    css  hr[class="h_lookup_hr"]
-hr_focus              css  hr[class="h_lookup_hr_focus"]
+container          css   .input_container
+input_wrap         css   .input_container .input_wrap
+input_label        css   .input_container .input_label
+input_placeholder  css   .input_container .input_placeholder
+input              css   .input_container .input
+input_underline    css   .input_container .input_underline
+underline_focus    css   .input_container .underline_focus
+input_error        css   .input_container .input_error
+div_awesome_lupa   css   .input_container .div_awesome_lupa
+icon_lupa          css   .input_container .div_awesome_lupa div 
+div_awesome_clear  css   .input_container .div_awesome_clear
+icon_clear         css   .input_container .h_lookup_iconClear
 ===========================================
 
 ___spec___

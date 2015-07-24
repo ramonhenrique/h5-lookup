@@ -1,86 +1,90 @@
-Funcionalidade: Componente para selecionar um registro de uma tabela
+  Funcionalidade: Componente para selecionar um registro de uma tabela
   Para permitir ao usuário escolher um registro existente
   Eu, como programador
   Desejo utilizar o componete h5-lookup
 
-Cenário: Renderização com lookup fechado - [caso]
+  Cenário: Renderização com lookup fechado - [caso]
   Dado que o estado da estória é [estado]
   Quando eu renderizar o [caso]
   Entao validar [spec]
   
   Exemplos:
     caso              | estado              | spec
-    ---------------------------------------------------------------------------------
-    @only
-    campo vazio       | id_pessoa:{         | input:
-                      |    display:"",      |   text is:
-                      |    _id:null         | span_semValue:
+    -----------------------------------------------------------------------------------------------------------
+    campo vazio       | id_pessoa:{         | container:
+                      |    display:"",      |   contains: input_label, input, input_underline, div_awesome_lupa
+                      |    _id:null         | input_label:
                       | }                   |   text is: Default
-                      |                     | container:
-                      |                     |
-    ---------------------------------------------------------------------------------
-    campo com valor   | id_pessoa:{         | input:
-                      |   display:"Ana",    |   text is: Ana
-                      |   _id:1001          | span_comValue:
-                      | }                   |   text is: Default
-    ---------------------------------------------------------------------------------
-    verificar awesome |  id_pessoa:{        | icon_lupa:
-                      |    display:"Maria", |   css font-size is: 14px
-                      |    _id:null         |   width: 14px
-                      |  }                  |   css color is:  rgba(158, 158, 158, 1)
-                      |                     |   css left is: 0px
-                      |                     | icon_clear:
-                      |                     |   css right is: 10px
-                      |                     |   width: 10px
-                      |                     |   css color is: rgba(158, 158, 158, 1)
+                      |                     | input:
+                      |                     |   text is:
+                      |                     | input_underline:
+                      |                     |   css border-bottom is: 1px solid rgb(224, 224, 224)
                       |                     |   css position is: absolute
-                      |                     |   css bottom is: 18px
+                      |                     | div_awesome_lupa
+                      |                     |   left of: input -270px
+                      |                     |   above: input_underline -9px
+                      |                     | icon_lupa
+                      |                     |   inside: div_awesome_lupa
+    -----------------------------------------------------------------------------------------------------------
+    campo com valor   | id_pessoa:{         | input
+                      |   display:"Ana",    |   text is: Ana
+                      |   _id:1001          | input_label:
+                      | }                   |   text is: Default
+    -----------------------------------------------------------------------------------------------------------
+    verificar awesome |  id_pessoa:{        | icon_lupa:
+                      |    display:"Maria", |   css font-size is: 16px
+                      |    _id:null         |   css color is: #9e9e9e
+                      |  }                  |
+                      |                     | icon_clear:
+                      |                     |   css color is: #9e9e9e
+                      |                     |   css position is: absolute
                       |                     |   css font-size is: 14px
-    ---------------------------------------------------------------------------------
+                      |                     |
+    -----------------------------------------------------------------------------------------------------------
 
-Cenário: Renderização com lookup fechado com foco - [caso]
-  Dado que o estado da estória é [estado]
-  Quando eu renderizar o [caso]
-  E clicar no [componente]
-  Entao validar [spec]
-
-  Exemplos:
-    caso                  | estado            | spec                                            | componente
-    --------------------------------------------------------------------------------------------|------------------------
-    campo vazio sem erros | id_pessoa:{       | label_comValueFocus:                            | input[name="id_pessoa"]
-                          |   display:"",     |   color: rgb(0, 188, 212)                       |
-                          |   _id:null        |   text is: Default                              |
-                          | }                 |   position: absolute                            |
-                          |                   |   line-height: 22px                             |
-                          |                   |   opacity: 1                                    |
-                          |                   | hr                                              |
-                          |                   |   border-bottom: solid 1px rgb(224, 224, 224)   |
-                          |                   |   position: absolute                            |
-                          |                   |   width: 100%                                   |
-                          |                   |   bottom: 8px                                   |
-                          |                   |   margin: 0                                     |
-                          |                   |   box-sizing: content-box                       |
-                          |                   |   height: 0                                     |
-                          |                   | hr_focus                                        |
-                          |                   |   border-style: none none solid                 |
-                          |                   |   border-bottom-width: 2px                      |
-                          |                   |   position: absolute                            |
-                          |                   |   width: 100%                                   |
-                          |                   |   bottom: 8px                                   |
-                          |                   |   margin: 0px                                   |
-                          |                   |   box-sizing: content-box                       |
-                          |                   |   height: 0px                                   |
-                          |                   |   border-color: rgb(0, 188, 212)                |
-                          |                   |   transform: scaleX(1)                          |
-                          |                   | span_semValue:                                  |
-                          |                   |   position: absolute                            |
-                          |                   |   line-height: 22px                             |
-                          |                   |   opacity: 1                                    |
-                          |                   |   color: rgba(0, 0, 0, 0.298039)                |
-                          |                   |   top: 38px                                     |
-                          |                   |   left: 18px                                    |
-                          |                   |   text is: Selecione valor default              |
-    ---------------------------------------------------------------------------------------------------------------------
+#  Cenário: Renderização com lookup fechado com foco - [caso]
+#  Dado que o estado da estória é [estado]
+#  Quando eu renderizar o [caso]
+#  E clicar no [componente]
+#  Entao validar [spec]
+#
+#  Exemplos:
+#    caso                  | estado        | spec                                          | componente
+#    ---------------------------------------------------------------------------------------------------------------
+#    campo vazio sem erros | id_pessoa:{   | label_comValueFocus:                          | input[name="id_pessoa"]
+#                          |   display:"", |   color: rgb(0, 188, 212)                     |
+#                          |   _id:null    |   text is: Default                            |
+#                          | }             |   position: absolute                          |
+#                          |               |   line-height: 22px                           |
+#                          |               |   opacity: 1                                  |
+#                          |               | hr                                            |
+#                          |               |   border-bottom: solid 1px rgb(224, 224, 224) |
+#                          |               |   position: absolute                          |
+#                          |               |   width: 100%                                 |
+#                          |               |   bottom: 8px                                 |
+#                          |               |   margin: 0                                   |
+#                          |               |   box-sizing: content-box                     |
+#                          |               |   height: 0                                   |
+#                          |               | hr_focus                                      |
+#                          |               |   border-style: none none solid               |
+#                          |               |   border-bottom-width: 2px                    |
+#                          |               |   position: absolute                          |
+#                          |               |   width: 100%                                 |
+#                          |               |   bottom: 8px                                 |
+#                          |               |   margin: 0px                                 |
+#                          |               |   box-sizing: content-box                     |
+#                          |               |   height: 0px                                 |
+#                          |               |   border-color: rgb(0, 188, 212)              |
+#                          |               |   transform: scaleX(1)                        |
+#                          |               | span_semValue:                                |
+#                          |               |   position: absolute                          |
+#                          |               |   line-height: 22px                           |
+#                          |               |   opacity: 1                                  |
+#                          |               |   color: rgba(0, 0, 0, 0.298039)              |
+#                          |               |   top: 38px                                   |
+#                          |               |   left: 18px                                  |
+#                          |               |   text is: Selecione valor default            |
+#    ---------------------------------------------------------------------------------------------------------------
   
 #Cenário: Renderização com lookup fechado com valor
 #  Dado que eu tenho um estado em uma estoria
@@ -152,18 +156,15 @@ Cenário: Renderização com lookup fechado com foco - [caso]
 
 
 #testar required, dever estar no field
-
-# if(field.validations){
-#            var required = field.validations.some(function(v){
-#                return v.name == 'required';
-#            });
-#        }
+#if(field.validations){
+#    var required = field.validations.some(function(v){
+#        return v.name == 'required';
+#    });
+#}
 
 
 # testar ESC
-
-
-#        if(!Object.keys(this.state.lookupDataBackup).length){
-#            this.state.lookupDataBackup.display = lookupdata.display;
-#            this.state.lookupDataBackup._id = lookupdata._id;
-#        }
+#if(!Object.keys(this.state.lookupDataBackup).length){
+#    this.state.lookupDataBackup.display = lookupdata.display;
+#    this.state.lookupDataBackup._id = lookupdata._id;
+#}

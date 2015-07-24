@@ -31,66 +31,57 @@ var Lookup = React.createClass({
         var self = this;
         var state = this.props.store;
         var field=state.fields[this.props.field];
-
         var lookupdata = field && field.display ? field : "";
-
-        //Props TD
-        var p = /(\d+)/.exec(this.props.className);
+        var p = /(\d+)/.exec(this.props.className); //Props TD
         var colspanx = p[1];
-
-        var propstd = {
-            colSpan: colspanx,
-            className: 'h_lookup_td'
-        };
-
+        var propstd = {colSpan: colspanx, className: 'h_lookup_td'};
         if (this.props.rowSpan)
             propstd.rowSpan = this.props.rowSpan;
-
-
         var notFoundText = this.props.notFoundText ? this.props.notFoundText : 'Nenhum resultado encontrado';
-
-        var propsTextField = {};
-
-        propsTextField.fullWidth = true;
-        propsTextField.value = lookupdata.display != '' ? lookupdata.display : null;
-        propsTextField.errorText = error ? error : ''
-        //propsTextField.name = this.props.field;
-        propsTextField.floatingLabelText = required ?  "* " + this.props.floatingLabelText  : this.props.floatingLabelText;
-        propsTextField.hintText = this.props.hintText;
-        propsTextField.onChange = this.changed;
-        propsTextField.onKeyUp = this.keyUp;
-        propsTextField.onKeyDown = this.keyDown;
-        propsTextField.ref = this.props.field;
-        propsTextField.className = 'inputleft h_lookup_textField input_'+ this.props.field;
-        propsTextField.onFocus = this.focus;
-        propsTextField.onBlur = this.blur;
-
-
-
-        var propsIconSearch = {}
-
-        propsIconSearch.onClick = this.searchLupa.bind(this, '');
-        propsIconSearch.iconClassName = this.state._searching ? 'fa fa-search searching h_lookup_iconSearch' : 'fa fa-search h_lookup_iconSearch';
-
-        var propsIconClear = {};
-        propsIconClear.onClick = this.clearAndSearch;
-        propsIconClear.iconClassName = 'fa fa-times-circle hoverRed h_lookup_iconClear';
-
         var textAlignPaper = (this.state.searchResult && this.state.searchResult.length > 0)  ? '' : 'h_lookup_paper_center';
-        var classPaper = this.isDropDown() ? ('animationDropDown h_lookup_paper ' + textAlignPaper)
-                                                : ('h_lookup_paper ' + textAlignPaper);
-
+        var classPaper = this.isDropDown() ? ('animationDropDown h_lookup_paper ' + textAlignPaper) : ('h_lookup_paper ' + textAlignPaper);
         var classDivList = 'h_lookup_divList'
         var classList = 'h_lookup_list';
 
-        var classDivWrap = 'h_lookup_div_wrap';
+        var propsTextField = {};
+        (function DefinePropsTextField(){
+            propsTextField.fullWidth = true;
+            propsTextField.value = lookupdata.display != '' ? lookupdata.display : null;
+            propsTextField.errorText = field.error ? field.error : '';
+            propsTextField.floatingLabelText = self.props.floatingLabelText;
+            propsTextField.hintText = self.props.hintText;
+            propsTextField.onChange = self.changed;
+            propsTextField.onKeyUp = self.keyUp;
+            propsTextField.onKeyDown = self.keyDown;
+            propsTextField.ref = self.props.field;
+            propsTextField.className = 'input inputleft h_lookup_textField input_'+ self.props.field;
+            propsTextField.onFocus = self.focus;
+            propsTextField.onBlur = self.blur;
+        }());
 
-        var classNameLabel = this.state.focus || propsTextField.value != null ?
-             'h_lookup_LabelComValue ' + (this.state.focus ? error ? 'erro' : 'focus' :  error ? 'erro' : ''):
-            'h_lookup_LabelSemValue ' + (error ? 'erro' : '')
+        var classNameLabel = null;
+        (function DefineClassNameLabel(){
+            return classNameLabel = self.state.focus || propsTextField.value != null ?
+                'h_lookup_LabelComValue ' + (self.state.focus ? field.error ? 'erro' : 'focus' :  field.error ? 'erro' : ''):
+                  'h_lookup_LabelSemValue ' + (field.error ? 'erro' : '')
+        }());
 
-        var listResult = this.state.searchResult ? <div className={classList} >{this.state.searchResult.length > 0 ?
-            this.state.searchResult.map(function (item, index) {
+        var propsIconSearch = {};
+        (function DefinePropsIconSearch(){
+            propsIconSearch.onClick = self.searchLupa.bind(self, '');
+            propsIconSearch.iconClassName = self.state._searching ? 'fa fa-search searching h_lookup_iconSearch' : 'fa fa-search h_lookup_iconSearch';
+        }());
+
+        var propsIconClear = {};
+        (function DefinePropsIconSearch(){
+            propsIconClear.onClick = self.clearAndSearch;
+            propsIconClear.iconClassName = 'fa fa-times-circle hoverRed h_lookup_iconClear';
+        }());
+
+        var listResult=null;
+        (function DefineListResult(){
+            return listResult = self.state.searchResult ? <div className={classList} >{self.state.searchResult.length > 0 ?
+                self.state.searchResult.map(function (item, index) {
                   var classItemList = 'h_lookup_itemList';
                   if(index == self.state.searchResultIndex){
                           classItemList = classItemList + ' selected';
@@ -102,56 +93,86 @@ var Lookup = React.createClass({
                   };
                   propsItemList.className = classItemList;
                   return React.createElement('div', propsItemList,
-                       [React.createElement('span', {className: 'h_lookup_span_itemSearch'}, item.display)])
-              }) : <span className='h_lookup_span_notFoundText'>
-                      {notFoundText}
-                  </span>}</div>
-              : <span className="fa fa-repeat gira"></span>
+                           [React.createElement('span', {className: 'h_lookup_span_itemSearch'}, item.display)])
+                }) : <span className='h_lookup_span_notFoundText'>{notFoundText}</span>
+            }</div> : <span className="fa fa-repeat gira"></span>
+        }());
 
+        var listLookup = null;
+        (function DefineLookup(){
+            return listLookup = self.isDropDown() ?
+                <div className={classDivList}>
+                    <div ref="lookup" className={'lista'+ classPaper}>
+                        {listResult}
+                    </div>
+                </div> : null;
+        }());
 
-        var listLookup = this.isDropDown() ?
-            <div className={classDivList}>
-                <div ref="lookup" className={classPaper}>
-                    {listResult}
-                </div> </div>
-                : null;
+        /*
+          input_container - É uma div que engloba: input_label, input_placeholder, input, input_underline, icons_awesome, input_error
+          input_label - label que recebe o atributo floatingLabelText
+          placeholder - label recebe o atributo hintText
+          input - input que recebe como propriedade o objeto propsTextField
+          input_underline - hr que mudam de propriedades quando o input está ou não com foco ou vermelho se tiver erro
+          icons_awesome - div's que possuem os icones de lupa(pesquisar) e clear(limpar)
+          input_error - span que mostra a mensagem de erro caso tenha error
+          input_wrap - É uma div que somente aparece quando o lookup está aberto e faz uma borda acinzetanda
+        */
+        var input_wrap = function(){
+          return [
+            self.isDropDown() ? React.createElement("div", {className: 'input_wrap h_lookup_div_wrap'}) : null
+          ];
+        };
+        var input_label = function(){
+          return [
+            React.createElement('label', {className: 'input_label '+ classNameLabel}, [self.props.floatingLabelText])
+          ]
+        };
+        var input_placeholder = function(){
+          return [
+            !propsTextField.value && self.state.focus || propsTextField.value == '' && self.state.focus ?
+            React.createElement('label', {className: ('input_placeholder h_lookup_LabelSemValue '+ (field.error ? 'erro' : ''))}, [self.props.hintText]) : null
+          ];
+        };
+        var input = function(){
+          return [
+            React.createElement('input', propsTextField)
+          ];
+        };
+        var input_underline = function(){
+          return [
+            React.createElement('hr', {className: 'input_underline h_lookup_hr'}),
+            self.state.focus ? React.createElement('hr', {className: 'underline_focus h_lookup_hr_focus'}) : null
+          ];
+        };
+        var input_error = function(){
+          return [
+            field.error ? React.createElement('span', {className: 'input_error h_lookup_span_error'}, [field.error]) : null //css h_lookup_span_error -> msg_error
+          ];
+        };
+        var icons_awesome = function(){
+          return [
+            React.createElement('div', {className:"div_awesome_lupa"}, React.createElement(Icon, propsIconSearch)),
+            self.getEditingValue().display ? React.createElement('div', {className:"div_awesome_clear"}, React.createElement(Icon, propsIconClear)) : null
+          ];
+        };
 
-        return (React.createElement("td", propstd,
-                        React.createElement("div", {className: ('h_lookup_div' + (this.state.zIndex))},
+        function input_container(){
+          return React.createElement("td", propstd,
+              React.createElement("div", {className: ('input_container h_lookup_div' + (self.state.zIndex))}, input_wrap().concat(input_label()).concat(input_placeholder()).concat(input()).concat(input_underline()).concat(input_error()).concat(icons_awesome()), listLookup
+              )
+            )
+        };
 
-                        [this.isDropDown() ? React.createElement("div", {className: classDivWrap}) : null,
-
-                         React.createElement('label', {className: classNameLabel}, [this.props.floatingLabelText]),
-
-                      !propsTextField.value && this.state.focus || propsTextField.value == '' && this.state.focus ?
-                         React.createElement('label', {className: ('h_lookup_LabelSemValue ' + (error ? 'erro' : ''))},
-                         [this.props.hintText]) : null,
-
-                         React.createElement('input', propsTextField),
-
-                         React.createElement('hr', {className: 'h_lookup_hr'}),
-
-                        this.state.focus ? React.createElement('hr', {className: 'h_lookup_hr_focus'}) : null ,
-
-                        error ?
-                        React.createElement('span', {className: 'h_lookup_span_error'}, [error]) : null ,
-
-                         React.createElement('div', {}, React.createElement(Icon, propsIconSearch)),
-
-                         listLookup,
-                         this.getEditingValue().display ?
-                                  React.createElement('div', {},
-                                     React.createElement(Icon, propsIconClear)) : null]
-                        )
-                    )
-               );
+        return (
+          input_container()
+        );
     },
-
     componentClickAway: function componentClickAway() {
         this.closeDropDownlookup();
     },
     openDropDownlookup: function(){
-        this.openDropDown();
+       this.openDropDown();
        this.setState({
            keyUpScroll: 0
        });
@@ -283,7 +304,7 @@ var Lookup = React.createClass({
         this.setState({});
     },
     validate: function(field, selected){
-        var state = this.props.store.getState();
+        var state = this.props.store;
         this.props.store.validate(this.props.field, selected.display)
     },
     selectItem: function(){
@@ -336,3 +357,40 @@ var Lookup = React.createClass({
 });
 
 module.exports = Lookup;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*React.createElement("td", propstd,
+  React.createElement("div", {className: ('h_lookup_div' + (this.state.zIndex))},
+    [this.isDropDown() ? React.createElement("div", {className: classDivWrap}) : null,
+      React.createElement('label', {className: classNameLabel}, [this.props.floatingLabelText]),
+      !propsTextField.value && this.state.focus || propsTextField.value == '' && this.state.focus ?
+      React.createElement('label', {className: ('h_lookup_LabelSemValue ' + (field.error ? 'erro' : ''))}, [this.props.hintText]) : null,
+      React.createElement('input', propsTextField),
+      React.createElement('hr', {className: 'h_lookup_hr'}), this.state.focus ?
+      React.createElement('hr', {className: 'h_lookup_hr_focus'}) : null , field.error ?
+      React.createElement('span', {className: 'h_lookup_span_error'}, [field.error]) : null ,
+      React.createElement('div', {}, React.createElement(Icon, propsIconSearch)),listLookup,
+      this.getEditingValue().display ?
+        React.createElement('div', {},
+           React.createElement(Icon, propsIconClear)) : null]
+    )
+)*/
+
+//propsTextField.name = self.props.field;
+//propsTextField.floatingLabelText = required ?  "* " + self.props.floatingLabelText  : self.props.floatingLabelText;
