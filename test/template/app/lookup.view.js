@@ -6,13 +6,13 @@ window.hsession = {
     language: "pt_br"
 };
 var mock_store_pessoas={
-      peoples:[
-        {_id: 1, name: "Ana", doc: '123', mae: null, sexo: 'F'},
-        {_id: 2, name: "Maria", doc: '456', mae: 1, sexo: 'F'},
-        {_id: 3, name: "Carol", doc: '789', mae: 1, sexo: 'F'},
-        {_id: 4, name: "Bernardo", doc: '', mae: 3, sexo: 'M'},
-        {_id: 5, name: "Julieta", doc: '', mae: 2, sexo: 'F'}
-        ]
+  peoples:[
+      {_id: 1, name: "Ana", doc: '123', mae: null, sexo: 'F'},
+      {_id: 2, name: "Maria", doc: '456', mae: 1, sexo: 'F'},
+      {_id: 3, name: "Carol", doc: '789', mae: 1, sexo: 'F'},
+      {_id: 4, name: "Bernardo", doc: '', mae: 3, sexo: 'M'},
+      {_id: 5, name: "Julieta", doc: '', mae: 2, sexo: 'F'}
+    ]
 };
 
 var mock_store =  {

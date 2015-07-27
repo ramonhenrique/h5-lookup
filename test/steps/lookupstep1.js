@@ -24,6 +24,11 @@ module.exports = function (library, expect, h5_test) {
       h5_test.run("test/test.js");
       next();
     })
+    .when('digitar o texto (.*)', function (texto, next) {
+      h5_test.replace("___texto___", texto);
+      h5_test.run("test/test2.js");
+      next();
+    })
 };
 
 

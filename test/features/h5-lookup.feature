@@ -9,100 +9,77 @@
   Entao validar [spec]
   
   Exemplos:
-    caso              | estado              | spec
-    -----------------------------------------------------------------------------------------------------------
-    campo vazio       | id_pessoa:{         | container:
-                      |    display:"",      |   contains: input_label, input, input_underline, div_awesome_lupa
-                      |    _id:null         | input_label:
-                      | }                   |   text is: Default
-                      |                     | input:
-                      |                     |   text is:
-                      |                     | input_underline:
-                      |                     |   css border-bottom is: 1px solid rgb(224, 224, 224)
-                      |                     |   css position is: absolute
-                      |                     | div_awesome_lupa
-                      |                     |   left of: input -270px
-                      |                     |   above: input_underline -9px
-                      |                     | icon_lupa
-                      |                     |   inside: div_awesome_lupa
-    -----------------------------------------------------------------------------------------------------------
-    campo com valor   | id_pessoa:{         | input
-                      |   display:"Ana",    |   text is: Ana
-                      |   _id:1001          | input_label:
-                      | }                   |   text is: Default
-    -----------------------------------------------------------------------------------------------------------
-    verificar awesome |  id_pessoa:{        | icon_lupa:
-                      |    display:"Maria", |   css font-size is: 16px
-                      |    _id:null         |   css color is: #9e9e9e
-                      |  }                  |
-                      |                     | icon_clear:
-                      |                     |   css color is: #9e9e9e
-                      |                     |   css position is: absolute
-                      |                     |   css font-size is: 14px
-                      |                     |
-    -----------------------------------------------------------------------------------------------------------
+    caso              | estado                   | spec
+    -----------------------------------------------------------------------------------------------
+    campo vazio       | id_pessoa:{              | container:
+                      |    display:"",           |   contains: input_label, input, div_awesome_lupa
+                      |    _id:null              | input_label:
+                      | }                        |   text is: Default
+                      |                          |   inside: container
+                      |                          | input:
+                      |                          |   text is:
+                      |                          | div_awesome_lupa
+                      |                          |   left of: input <0px
+                      |                          | icon_lupa
+                      |                          |   inside: div_awesome_lupa
+    -----------------------------------------------------------------------------------------------
+    campo com valor   | id_pessoa:{              | input
+                      |   display:"Ana",         |   text is: Ana
+                      |   _id:1001               | input_label:
+                      | }                        |   text is: Default
+    -----------------------------------------------------------------------------------------------
+    verificar awesome |  id_pessoa:{             | icon_lupa:
+                      |    display:"Maria",      |   css font-size is: 16px
+                      |    _id:null              |
+                      |  }                       |
+                      |                          | icon_clear:
+                      |                          |   css position is: absolute
+                      |                          |   css font-size is: 14px
+                      |                          |
+    -----------------------------------------------------------------------------------------------
+    focus             | _autofocus: 'id_pessoa', | input:
+                      | id_pessoa:{              |   text is:
+                      |   display:"",            |   inside: container
+                      |   _id:null               | input_label:
+                      | }                        |   text is: Default
+                      |                          |   inside: container
+                      |                          |   css color is: rgba(0, 188, 212, 1)
+                      |                          | input_placeholder:
+                      |                          |   css color is: rgba(139, 139, 139, 1)
+                      |                          |   text is: Selecione valor default
+    -----------------------------------------------------------------------------------------------
 
-#  Cenário: Renderização com lookup fechado com foco - [caso]
-#  Dado que o estado da estória é [estado]
-#  Quando eu renderizar o [caso]
-#  E clicar no [componente]
-#  Entao validar [spec]
-#
-#  Exemplos:
-#    caso                  | estado        | spec                                          | componente
-#    ---------------------------------------------------------------------------------------------------------------
-#    campo vazio sem erros | id_pessoa:{   | label_comValueFocus:                          | input[name="id_pessoa"]
-#                          |   display:"", |   color: rgb(0, 188, 212)                     |
-#                          |   _id:null    |   text is: Default                            |
-#                          | }             |   position: absolute                          |
-#                          |               |   line-height: 22px                           |
-#                          |               |   opacity: 1                                  |
-#                          |               | hr                                            |
-#                          |               |   border-bottom: solid 1px rgb(224, 224, 224) |
-#                          |               |   position: absolute                          |
-#                          |               |   width: 100%                                 |
-#                          |               |   bottom: 8px                                 |
-#                          |               |   margin: 0                                   |
-#                          |               |   box-sizing: content-box                     |
-#                          |               |   height: 0                                   |
-#                          |               | hr_focus                                      |
-#                          |               |   border-style: none none solid               |
-#                          |               |   border-bottom-width: 2px                    |
-#                          |               |   position: absolute                          |
-#                          |               |   width: 100%                                 |
-#                          |               |   bottom: 8px                                 |
-#                          |               |   margin: 0px                                 |
-#                          |               |   box-sizing: content-box                     |
-#                          |               |   height: 0px                                 |
-#                          |               |   border-color: rgb(0, 188, 212)              |
-#                          |               |   transform: scaleX(1)                        |
-#                          |               | span_semValue:                                |
-#                          |               |   position: absolute                          |
-#                          |               |   line-height: 22px                           |
-#                          |               |   opacity: 1                                  |
-#                          |               |   color: rgba(0, 0, 0, 0.298039)              |
-#                          |               |   top: 38px                                   |
-#                          |               |   left: 18px                                  |
-#                          |               |   text is: Selecione valor default            |
-#    ---------------------------------------------------------------------------------------------------------------
+  Cenário: Renderização pesquisando - [caso]
+  Dado que o estado da estória é [estado]
+  Quando eu renderizar o [caso]
+  E digitar o texto [texto]
+  Então validar [spec]
+
+  Exemplos:
+    caso                   | estado        | spec                   | texto
+    ---------------------------------------------------------------------------
+    pesquisa com resultado | id_pessoa:{   | container:             | 'a'
+                           |   display:"", |   contains: input_wrap |
+                           |   _id:null    |                        |
+                           | }             |                        |
+    ---------------------------------------------------------------------------
   
 #Cenário: Renderização com lookup fechado com valor
 #  Dado que eu tenho um estado em uma estoria
 #  E tenho um valor ja cadastrado
 #  Quando eu renderizar [render]
 #  Entao validar [spec]
-#
-#Cenário: Renderização com lookup aberto 
-#  Dado que eu tenho um estado em uma estoria
+
+#Cenário: Renderização com lookup aberto - [caso]
+#  Dado que o estado da estória é [estado]
 #  Quando eu renderizar [render]
 #  Entao exibirá o resultado
 #  E validar [spec]
 #  
-#Cenário: Renderização pesquisando encontrou
-#  Dado que eu tenho um estado em uma estoria
-#  Quando encontrar [item] com o [texto]
-#  Então mostrará o [registro_existente]
-#
+#  Exemplos:
+#    caso              | estado                   | spec
+#    -----------------------------------------------------------------------------------------------
+
 #Cenário: Renderização pesquisando não encontrou
 #  Dado que eu tenho um estado em uma estoria
 #  Quando não encontrar [item] com o [texto]

@@ -54,8 +54,9 @@ var Lookup = React.createClass({
             propsTextField.onKeyUp = self.keyUp;
             propsTextField.onKeyDown = self.keyDown;
             propsTextField.ref = self.props.field;
-            propsTextField.className = 'input inputleft h_lookup_textField input_'+ self.props.field;
+            propsTextField.className = self.state.focus ? 'h_lookup_textField_focus input inputleft input_'+ self.props.field : 'h_lookup_textField input inputleft input_'+ self.props.field;
             propsTextField.onFocus = self.focus;
+            propsTextField.autoFocus = state.fields._autofocus ? true : false;
             propsTextField.onBlur = self.blur;
         }());
 
@@ -139,12 +140,6 @@ var Lookup = React.createClass({
             React.createElement('input', propsTextField)
           ];
         };
-        var input_underline = function(){
-          return [
-            React.createElement('hr', {className: 'input_underline h_lookup_hr'}),
-            self.state.focus ? React.createElement('hr', {className: 'underline_focus h_lookup_hr_focus'}) : null
-          ];
-        };
         var input_error = function(){
           return [
             field.error ? React.createElement('span', {className: 'input_error h_lookup_span_error'}, [field.error]) : null //css h_lookup_span_error -> msg_error
@@ -159,7 +154,7 @@ var Lookup = React.createClass({
 
         function input_container(){
           return React.createElement("td", propstd,
-              React.createElement("div", {className: ('input_container h_lookup_div' + (self.state.zIndex))}, input_wrap().concat(input_label()).concat(input_placeholder()).concat(input()).concat(input_underline()).concat(input_error()).concat(icons_awesome()), listLookup
+              React.createElement("div", {className: ('input_container h_lookup_div' + (self.state.zIndex))}, input_wrap().concat(input_label()).concat(input_placeholder()).concat(input()).concat(input_error()).concat(icons_awesome()), listLookup
               )
             )
         };
