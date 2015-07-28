@@ -6,7 +6,7 @@
   Cenário: Renderização com lookup fechado - [caso]
   Dado que o estado da estória é [estado]
   Quando eu renderizar o [caso]
-  Entao validar [spec]
+  Então deverá ser exibido [spec]
   
   Exemplos:
     caso              | estado                   | spec
@@ -35,7 +35,6 @@
                       |                          | icon_clear:
                       |                          |   css position is: absolute
                       |                          |   css font-size is: 14px
-                      |                          |
     -----------------------------------------------------------------------------------------------
     focus             | _autofocus: 'id_pessoa', | input:
                       | id_pessoa:{              |   text is:
@@ -53,17 +52,42 @@
   Dado que o estado da estória é [estado]
   Quando eu renderizar o [caso]
   E digitar o texto [texto]
-  Então validar [spec]
-
-  Exemplos:
-    caso                   | estado        | spec                   | texto
-    ---------------------------------------------------------------------------
-    pesquisa com resultado | id_pessoa:{   | container:             | 'a'
-                           |   display:"", |   contains: input_wrap |
-                           |   _id:null    |                        |
-                           | }             |                        |
-    ---------------------------------------------------------------------------
+  Então deverá ser exibido [spec]
   
+  Exemplos:
+    caso          | estado        | spec                                   | texto
+    ------------------------------------------------------------------------------
+    pesquisa      | id_pessoa:{   | input_wrap:                            |  'a'
+                  |   display:"", |  inside partly: container              |
+                  |   _id:null    | divList:                               |
+                  | }             |  inside partly: container              |
+                  |               | container:                             |
+                  |               |  inside partly: container              |
+                  |               |  contains partly: list                 |
+                  |               | input:                                 |
+                  |               |  inside: input_wrap                    |
+                  |               |  below: input -65px                    |
+    ------------------------------------------------------------------------------
+    @only
+    com resultado | id_pessoas:{  | list:                                  |  'a'
+                  |   display:"", |   contains: itemList                   |
+                  |   _id:null    |   inside: input_wrap                   |
+                  | }             |   below: input                         |
+                  |               | itemList:                              |
+                  |               |   inside partly: divList               |
+                  |               |   below: list -180px                   |
+                  |               |   below: input                         |
+    ------------------------------------------------------------------------------
+    sem resultado | id_pessoas:{  | list:                                  | 'asd'
+                  |  display:"",  |   contains: notFoundText               |
+                  |  _id:null     |   inside: input_wrap                   |
+                  | }             |   below: input                         |
+                  |               | notFoundText:                          |
+                  |               |   text is: Nenhum resultado encontrado |
+                  |               |   below: list -19px                    |
+                  |               |   below: input                         |
+    ------------------------------------------------------------------------------
+
 #Cenário: Renderização com lookup fechado com valor
 #  Dado que eu tenho um estado em uma estoria
 #  E tenho um valor ja cadastrado
