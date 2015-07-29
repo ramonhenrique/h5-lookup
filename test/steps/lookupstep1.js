@@ -7,6 +7,11 @@ module.exports = function (library, expect, h5_test) {
         h5_test.replace('___fields___', estado);
         next();
     })
+    .given('que eu digitei o ([^\u0000]*)', function (estado, next) {
+        expect(estado, 'estado').to.be.an('string');
+        h5_test.replace('___fields___', estado);
+        next();
+    })
     .when('eu renderizar o (.*)', function (caso, next) {
         h5_test.replace('___caso___', caso);
         h5_test.file('app/lookup.view.js');
@@ -14,6 +19,12 @@ module.exports = function (library, expect, h5_test) {
         h5_test.pack('app', next);
     })
     .then('deverá ser exibido ([^\u0000]*)', function (spec, next) {
+        expect(spec).to.be.an('string');
+        h5_test.replace('___spec___', spec);
+        h5_test.check('test/test.spec');
+        next();
+    })
+    .when('deverá ser exibido ([^\u0000]*)', function (spec, next) {
         expect(spec).to.be.an('string');
         h5_test.replace('___spec___', spec);
         h5_test.check('test/test.spec');
@@ -29,8 +40,24 @@ module.exports = function (library, expect, h5_test) {
       h5_test.run("test/test2.js");
       next();
     })
+    .when('clicar na lupa pra pesquisar', function (next) {
+      h5_test.run("test/test.js");
+      next();
+    })
+    .when('eu quero apagar o (.*)', function (texto, next) {
+      next();
+    })
+    .when('eu clicar em limpar', function (next) {
+      h5_test.run("test/test3.js");
+      next();
+    })
+     .when('eu tiver um intem ja cadastrado anteriormento', function (next) {
+      next();
+    })
+     .then('contecerá um rollback', function (next) {
+      next();
+    })
 };
-
 
 
 

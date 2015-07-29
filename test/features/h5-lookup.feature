@@ -30,10 +30,8 @@
     -----------------------------------------------------------------------------------------------
     verificar awesome |  id_pessoa:{             | icon_lupa:
                       |    display:"Maria",      |   css font-size is: 16px
-                      |    _id:null              |
-                      |  }                       |
-                      |                          | icon_clear:
-                      |                          |   css position is: absolute
+                      |    _id:null              | icon_clear:
+                      |  }                       |   css position is: absolute
                       |                          |   css font-size is: 14px
     -----------------------------------------------------------------------------------------------
     focus             | _autofocus: 'id_pessoa', | input:
@@ -68,8 +66,7 @@
                   |               |  inside: input_wrap                    |
                   |               |  below: input -65px                    |
     ------------------------------------------------------------------------------
-    @only
-    com resultado | id_pessoas:{  | list:                                  |  'a'
+    com resultado | id_pessoa:{   | list:                                  |  'a'
                   |   display:"", |   contains: itemList                   |
                   |   _id:null    |   inside: input_wrap                   |
                   | }             |   below: input                         |
@@ -78,7 +75,7 @@
                   |               |   below: list -180px                   |
                   |               |   below: input                         |
     ------------------------------------------------------------------------------
-    sem resultado | id_pessoas:{  | list:                                  | 'asd'
+    sem resultado | id_pessoa:{   | list:                                  | 'asd'
                   |  display:"",  |   contains: notFoundText               |
                   |  _id:null     |   inside: input_wrap                   |
                   | }             |   below: input                         |
@@ -88,39 +85,55 @@
                   |               |   below: input                         |
     ------------------------------------------------------------------------------
 
-#Cenário: Renderização com lookup fechado com valor
-#  Dado que eu tenho um estado em uma estoria
-#  E tenho um valor ja cadastrado
-#  Quando eu renderizar [render]
-#  Entao validar [spec]
+  Cenário: Clicando na icone pesquisar - [caso]
+  Dado que o estado da estória é [estado]
+  Quando eu renderizar o [caso]
+  E clicar na lupa pra pesquisar
+  Então deverá ser exibido [spec]
 
-#Cenário: Renderização com lookup aberto - [caso]
-#  Dado que o estado da estória é [estado]
-#  Quando eu renderizar [render]
-#  Entao exibirá o resultado
-#  E validar [spec]
-#  
-#  Exemplos:
-#    caso              | estado                   | spec
-#    -----------------------------------------------------------------------------------------------
+  Exemplos:
+    caso            | estado          | spec
+    -------------------------------------------------------------
+    Campo em branco | id_pessoa:{     | dropDown:
+                    |   display:"",   |   contains: loading
+                    |   _id:null      |   inside partly: divList
+                    | }               |   below: input
+                    |                 | loading:
+                    |                 |   inside partly: dropDown
+                    |                 |   below: divList
+                    |                 |   below: input
+                    |                 | input:
+                    |                 |   text is:
+    -------------------------------------------------------------
+    Campo com texto | id_pessoa:{     | dropDown:
+                    |   display:"Be", |   contains: loading
+                    |   _id:79        |   inside partly: divList
+                    | }               |   below: input
+                    |                 | loading:
+                    |                 |   inside partly: dropDown
+                    |                 |   below: divList
+                    |                 |   below: input
+                    |                 | input:
+                    |                 |   text is: Be
+    -------------------------------------------------------------
 
-#Cenário: Renderização pesquisando não encontrou
-#  Dado que eu tenho um estado em uma estoria
-#  Quando não encontrar [item] com o [texto]
-#  Então mostrará a [mensagem] 
-#
-#Cenário: Clicando na icone pesquisar
-#  Dado que eu não digitei o [texto]
-#  Quando eu clicar no icone pesquisar 
-#  Então o componente mostrará por completo o [registro_existente]
-#
-#Cenário: Clicando 1x no icone de limpar ou pressionando a tecla Esc
-#  Dado que eu digitei o [texto]
-#  E eu quero apagar o [texto]
-#  Quando eu clicar em limpar
-#  E eu tiver um [intem] ja cadastrado anteriormento
-#  Então contecerá um rollback
-#
+  Cenário: Clicando 1x no icone de limpar ou pressionando a tecla Esc
+  Dado que eu digitei o [texto]
+  E eu quero apagar o [texto]
+  Quando eu clicar em limpar
+  E eu tiver um intem ja cadastrado anteriormento
+  Então contecerá um rollback
+  E deverá ser exibido [spec]
+
+  Exemplos:
+    caso  | texto                | spec
+    -----------------------------------
+    @only
+    caso1 | id_pessoa:{          |
+          |  display:"Bernardo", |
+          |  _id:1236            |
+          | }                    |
+
 #Cenário: Clicando 2x no icone de limpar 
 #  Dado que eu digitei o [texto]
 #  E eu quero apagar o [texto] digitado junto com o item já cadastrado
@@ -154,6 +167,38 @@
 #  Quando
 #  Então
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#Cenário: Renderização com lookup fechado com valor
+#  Dado que eu tenho um estado em uma estoria
+#  E tenho um valor ja cadastrado
+#  Quando eu renderizar [render]
+#  Entao validar [spec]
+
+#Cenário: Renderização com lookup aberto - [caso]
+#  Dado que o estado da estória é [estado]
+#  Quando eu renderizar [render]
+#  Entao exibirá o resultado
+#  E validar [spec]
+
+#Cenário: Renderização pesquisando não encontrou
+#  Dado que eu tenho um estado em uma estoria
+#  Quando não encontrar [item] com o [texto]
+#  Então mostrará a [mensagem]
+#
 
 
 #testar required, dever estar no field

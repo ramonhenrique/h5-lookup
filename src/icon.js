@@ -34,7 +34,7 @@ var HIcon = React.createClass({
         else
             props.className = this.props.iconClassName;
         props.style = this.props.style;
-        props.onTouchTap = this.props.onClick;
+        props.onClick = this.props.onClick; // verificar se é pra colocar onTouchTap
 
         var self = this;
         return (React.createElement('div', {}, [React.createElement('icon', props)]));

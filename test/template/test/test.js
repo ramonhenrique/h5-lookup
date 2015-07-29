@@ -1,6 +1,6 @@
 this.TypeLookup = function (driver) {
     GalenPages.extendPage(this, driver, {
-        componente: ___componente___
+        componente: '.h_lookup_iconSearch'
     });
 };
 
