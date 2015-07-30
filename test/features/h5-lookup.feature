@@ -117,30 +117,57 @@
                     |                 |   text is: Be
     -------------------------------------------------------------
 
-  Cenário: Clicando 1x no icone de limpar ou pressionando a tecla Esc
-  Dado que eu digitei o [texto]
-  E eu quero apagar o [texto]
-  Quando eu clicar em limpar
-  E eu tiver um intem ja cadastrado anteriormento
+  Cenário: Clicando 1x no icone de limpar ou pressionando a tecla Esc - [caso]
+  Dado que o estado da estória é [estado]
+  Quando  eu renderizar o [caso]
+  E digitar o [texto]
+  E quero apagar o texto digitado
+  E eu clicar em limpar
   Então contecerá um rollback
   E deverá ser exibido [spec]
 
   Exemplos:
-    caso  | texto                | spec
-    -----------------------------------
+    caso                     | estado               | spec                                 | texto
+    ----------------------------------------------------------------------------------------------
     @only
-    caso1 | id_pessoa:{          |
-          |  display:"Bernardo", |
-          |  _id:1236            |
-          | }                    |
+    Com valor pré cadastrado | id_pessoa:{          | input:                               | 'a'
+                             |  display:"Bernardo", |   text is: Bernardo                  |
+                             |  _id: 4              | container:                           |
+                             | }                    |   contains partly: div_awesome_clear |
+                             |                      | icon_clear                           |
+                             |                      |   inside partly: div_awesome_clear   |
+                             |                      |   below: input_label                 |
+    ----------------------------------------------------------------------------------------------
+    Sem valor pré cadastrado | id_pessoa:{          | input:                               | 'Ber'
+                             |   display:"",        |   text is:                           |
+                             |   _id:null           |                                      |
+                             | }                    |                                      |
+    ----------------------------------------------------------------------------------------------
+    Apagando com tecla Esc   | id_pessoa:{          | input:                               | 'aa'
+                             |  display:"Bernardo", |   text is: Bernardo                  |
+                             |  _id: 4              | container:                           |
+                             | }                    |   contains partly: div_awesome_clear |
+                             |                      | icon_clear                           |
+                             |                      |   inside partly: div_awesome_clear   |
+                             |                      |   below: input_label                 |
+    ----------------------------------------------------------------------------------------------
 
-Cenário: Clicando 2x no icone de limpar
-  Dado que eu digitei o [texto]
-  E eu quero apagar o [texto] digitado junto com o item já cadastrado
-  Quando eu clicar 2x em limpar
-  Então o campo ficará em branco
-  E o componente lookup exibirá por completo o [registro_existente]
-#
+  Cenário: Clicando 2 vezes no icone de limpar -  [caso]
+  Dado que o estado da estória é [estado]
+  Quando  eu renderizar o [caso]
+  E eu quero apagar o texto digitado junto com o item já cadastrado
+  E clicar 2 vezes em limpar
+  Então E deverá ser exibido [spec]
+
+  Exemplos:
+    caso                     | estado               | spec      | texto
+    -------------------------------------------------------------------
+    Com valor pré cadastrado | id_pessoa:{          | input:    | "a"
+                             |  display:"Bernardo", |  text is: |
+                             |  _id: 4              |           |
+                             | }                    |           |
+    -------------------------------------------------------------------
+
 #Cenário: seta pra cima, seta pra baixo e scroll
 #  Dado que eu tenho o lookup exibindo o [registro_existente]
 #  Quando eu pressionar a tecla pra cima

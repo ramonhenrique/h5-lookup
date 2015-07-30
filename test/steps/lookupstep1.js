@@ -7,11 +7,6 @@ module.exports = function (library, expect, h5_test) {
         h5_test.replace('___fields___', estado);
         next();
     })
-    .given('que eu digitei o ([^\u0000]*)', function (estado, next) {
-        expect(estado, 'estado').to.be.an('string');
-        h5_test.replace('___fields___', estado);
-        next();
-    })
     .when('eu renderizar o (.*)', function (caso, next) {
         h5_test.replace('___caso___', caso);
         h5_test.file('app/lookup.view.js');
@@ -24,18 +19,12 @@ module.exports = function (library, expect, h5_test) {
         h5_test.check('test/test.spec');
         next();
     })
-    .when('deverá ser exibido ([^\u0000]*)', function (spec, next) {
-        expect(spec).to.be.an('string');
-        h5_test.replace('___spec___', spec);
-        h5_test.check('test/test.spec');
-        next();
-    })
     .when('clicar no (.*)', function (componente, next) {
       h5_test.replace("___componente___", componente);
       h5_test.run("test/test.js");
       next();
     })
-    .when('digitar o texto (.*)', function (texto, next) {
+    .when('digitar o (.*)', function (texto, next) {
       h5_test.replace("___texto___", texto);
       h5_test.run("test/test2.js");
       next();
@@ -44,17 +33,21 @@ module.exports = function (library, expect, h5_test) {
       h5_test.run("test/test.js");
       next();
     })
-    .when('eu quero apagar o (.*)', function (texto, next) {
+    .when('quero apagar o texto digitado', function (next) {
       next();
     })
     .when('eu clicar em limpar', function (next) {
-      h5_test.run("test/test3.js");
+      h5_test.run("test/test4.js");
       next();
     })
-     .when('eu tiver um intem ja cadastrado anteriormento', function (next) {
+    .then('contecerá um rollback', function (next) {
       next();
     })
-     .then('contecerá um rollback', function (next) {
+    .when('eu quero apagar o texto digitado junto com o item já cadastrado', function (next) {
+      next();
+    })
+    .when('clicar 2 vezes em limpar', function (next) {
+      h5_test.run("test/test5.js");
       next();
     })
 };
