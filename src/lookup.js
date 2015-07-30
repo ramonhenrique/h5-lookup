@@ -30,7 +30,7 @@ var Lookup = React.createClass({
     render: function () {
         var self = this;
         var state = this.props.store;
-        var field=state.fields[this.props.field];
+        var field=state.fields[this.props.field].value ? state.fields[this.props.field].value : state.fields[this.props.field];
         var lookupdata = field && field.display ? field : "";
         var p = /(\d+)/.exec(this.props.className); //Props TD
         var colspanx = p[1];
@@ -49,7 +49,7 @@ var Lookup = React.createClass({
             propsTextField.value = lookupdata.display != '' ? lookupdata.display : null;
             propsTextField.errorText = field.error ? field.error : '';
             propsTextField.floatingLabelText = self.props.floatingLabelText;
-            propsTextField.hintText = self.props.hintText;
+            propsTextField.hintText = lookupdata.display == '' ? self.props.hintText : null;
             propsTextField.onChange = self.changed;
             propsTextField.onKeyUp = self.keyUp;
             propsTextField.onKeyDown = self.keyDown;
@@ -156,7 +156,7 @@ var Lookup = React.createClass({
               onClick : self.searchLupa.bind(self, ''),
               iconClassName : self.state._searching ? 'fa fa-search searching h_lookup_iconSearch' : 'fa fa-search h_lookup_iconSearch'
             })),
-            self.getEditingValue().display ? React.createElement('div', {className:"div_awesome_clear"}, React.createElement(Icon, propsIconClear)) : null
+            (field.display != "" && field.display != null)  ? React.createElement('div', {className:"div_awesome_clear"}, React.createElement(Icon, propsIconClear)) : null
           ];
         };
 
@@ -235,9 +235,11 @@ var Lookup = React.createClass({
         React.findDOMNode(this.refs[this.props.field]).focus();
         var field = this.getEditingValue();
 
-        if(field.display != this.state.lookupDataBackup.display){
-            field.display = this.state.lookupDataBackup.display;
-            field._id = this.state.lookupDataBackup._id;
+        if(field.display!= '' && field.display != field.value.display){
+            field.value={
+                display: field.display,
+                _id: field._id
+            }
         }
         else{
             field.display = '';

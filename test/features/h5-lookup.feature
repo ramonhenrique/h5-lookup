@@ -134,12 +134,12 @@
           |  _id:1236            |
           | }                    |
 
-#Cenário: Clicando 2x no icone de limpar 
-#  Dado que eu digitei o [texto]
-#  E eu quero apagar o [texto] digitado junto com o item já cadastrado
-#  Quando eu clicar 2x em limpar
-#  Então o campo ficará em branco
-#  E o componente lookup exibirá por completo o [registro_existente]
+Cenário: Clicando 2x no icone de limpar
+  Dado que eu digitei o [texto]
+  E eu quero apagar o [texto] digitado junto com o item já cadastrado
+  Quando eu clicar 2x em limpar
+  Então o campo ficará em branco
+  E o componente lookup exibirá por completo o [registro_existente]
 #
 #Cenário: seta pra cima, seta pra baixo e scroll
 #  Dado que eu tenho o lookup exibindo o [registro_existente]
