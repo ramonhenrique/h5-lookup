@@ -40,6 +40,10 @@ module.exports = function (library, expect, h5_test) {
       h5_test.run("test/test4.js");
       next();
     })
+    .when('eu pressionar a tecla Esc', function (next) {
+      h5_test.inject("(function(){var object = document.createEvent('KeyboardEvent'); object.keyCode = 27; alert(object.keyCode);}());");
+      next();
+    })
     .then('contecerá um rollback', function (next) {
       next();
     })

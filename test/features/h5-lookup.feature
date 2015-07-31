@@ -129,7 +129,6 @@
   Exemplos:
     caso                     | estado               | spec                                 | texto
     ----------------------------------------------------------------------------------------------
-    @only
     Com valor pré cadastrado | id_pessoa:{          | input:                               | 'a'
                              |  display:"Bernardo", |   text is: Bernardo                  |
                              |  _id: 4              | container:                           |
@@ -143,6 +142,7 @@
                              |   _id:null           |                                      |
                              | }                    |                                      |
     ----------------------------------------------------------------------------------------------
+    @only
     Apagando com tecla Esc   | id_pessoa:{          | input:                               | 'aa'
                              |  display:"Bernardo", |   text is: Bernardo                  |
                              |  _id: 4              | container:                           |

@@ -39,7 +39,6 @@ var mock_store =  {
 var View = React.createClass({
     render: function () {
         return (
-          React.createElement('div', {},
             React.createElement(Hlookup, {
                 store:mock_store,
                 floatingLabelText:"Default",
@@ -50,18 +49,8 @@ var View = React.createClass({
                 lookup:mock_store_pessoas,
                 ref: 'btn'
                 }
-            ),
-            React.createElement('button', {onClick: this.keyDown.bind(this, 'Escape')}, ["Esc"])
-          )
+            )
         )
-    },
-
-    keyDown : function (tecla){
-        var e= {
-           key: tecla,
-            preventDefault : function(){}
-        };
-        this.refs.btn.keyDown(e);
     }
 });
 

@@ -234,16 +234,28 @@ var Lookup = React.createClass({
     clearAndSearch: function(){
         React.findDOMNode(this.refs[this.props.field]).focus();
         var field = this.getEditingValue();
+        var value;
+        if(field.value)
+            value=field.value.display
+        else
+            value = null
 
-        if(field.display!= '' && field.display != field.value.display){
+        if(value==null){
+            field.display = '';
+            field._id = null;
+            this.search('');
+        }
+        else if (field.display!= '' && field.display != value){
             field.value={
                 display: field.display,
                 _id: field._id
             }
         }
-        else{
-            field.display = '';
-            field._id = null;
+        else if (field.display!= '' && field.display == value){
+            field.value={
+                display: '',
+                _id: null
+            }
             this.search('');
         }
         this.setState({});
