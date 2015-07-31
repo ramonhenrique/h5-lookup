@@ -37,11 +37,11 @@ module.exports = function (library, expect, h5_test) {
       next();
     })
     .when('eu clicar em limpar', function (next) {
-      h5_test.run("test/test4.js");
+      h5_test.run("test/test3.js");
       next();
     })
     .when('eu pressionar a tecla Esc', function (next) {
-      h5_test.inject("(function(){var object = document.createEvent('KeyboardEvent'); object.keyCode = 27; alert(object.keyCode);}());");
+      h5_test.run("test/test4.js");
       next();
     })
     .then('contecerá um rollback', function (next) {
@@ -52,6 +52,10 @@ module.exports = function (library, expect, h5_test) {
     })
     .when('clicar 2 vezes em limpar', function (next) {
       h5_test.run("test/test5.js");
+      next();
+    })
+    .when('pressionar (.*)', function (next) {
+      h5_test.run("test/test6.js");
       next();
     })
 };

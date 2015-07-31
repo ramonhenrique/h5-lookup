@@ -117,7 +117,7 @@
                     |                 |   text is: Be
     -------------------------------------------------------------
 
-  Cenário: Clicando 1x no icone de limpar ou pressionando a tecla Esc - [caso]
+  Cenário: Clicando 1x no icone de limpar - [caso]
   Dado que o estado da estória é [estado]
   Quando  eu renderizar o [caso]
   E digitar o [texto]
@@ -142,22 +142,31 @@
                              |   _id:null           |                                      |
                              | }                    |                                      |
     ----------------------------------------------------------------------------------------------
-    @only
-    Apagando com tecla Esc   | id_pessoa:{          | input:                               | 'aa'
-                             |  display:"Bernardo", |   text is: Bernardo                  |
-                             |  _id: 4              | container:                           |
-                             | }                    |   contains partly: div_awesome_clear |
-                             |                      | icon_clear                           |
-                             |                      |   inside partly: div_awesome_clear   |
-                             |                      |   below: input_label                 |
-    ----------------------------------------------------------------------------------------------
+
+  Cenário: limpar pressionando a tecla Esc - [caso]
+  Dado que o estado da estória é [estado]
+  Quando  eu renderizar o [caso]
+  E digitar o [texto]
+  E quero apagar o texto digitado
+  E eu pressionar a tecla Esc
+  Então contecerá um rollback
+  E deverá ser exibido [spec]
+
+  Exemplos:
+    caso                     | estado               | spec       | texto
+    --------------------------------------------------------------------
+    Com valor pré cadastrado | id_pessoa:{          | input:     | 'aa'
+                             |  display:"Bernardo", |   text is: |
+                             |  _id: 4              |            |
+                             | }                    |            |
+    --------------------------------------------------------------------
 
   Cenário: Clicando 2 vezes no icone de limpar -  [caso]
   Dado que o estado da estória é [estado]
   Quando  eu renderizar o [caso]
   E eu quero apagar o texto digitado junto com o item já cadastrado
   E clicar 2 vezes em limpar
-  Então E deverá ser exibido [spec]
+  Então deverá ser exibido [spec]
 
   Exemplos:
     caso                     | estado               | spec      | texto
@@ -168,34 +177,37 @@
                              | }                    |           |
     -------------------------------------------------------------------
 
-  Cenário: Teclas pressionadas
-  Dado lookup exibindo [estado]
-  Quando eu pressionar [caso]
-  Então ser exibido [spec]
+  Cenário: Teclas pressionadas - [caso]
+  Dado que o estado da estória é [estado]
+  Quando eu renderizar o [caso]
+  E digitar o [texto]
+  E pressionar [caso]
+  Então deverá ser exibido [spec]
 
   Exemplos:
-    caso           | estado   | spec
-    ----------------------------------
-    seta pra cima  | [estado] | [spec]
-                   |          |
-                   |          |
-                   |          |
-    ----------------------------------
-    seta pra baixo | [estado] | [spec]
-                   |          |
-                   |          |
-                   |          |
-    ----------------------------------
-    scroll         | [estado] | [spec]
-                   |          |
-                   |          |
-                   |          |
-    ----------------------------------
-    enter          | [estado] | [spec]
-                   |          |
-                   |          |
-                   |          |
-    ----------------------------------
+    caso           | estado        | spec   | texto
+    -----------------------------------------------
+    @only
+    seta pra cima  | id_pessoa:{   | [spec] | 'Ber'
+                   |   display:"", |        |
+                   |   _id:        |        |
+                   | }             |        |
+    -----------------------------------------------
+    seta pra baixo | [estado]      | [spec] |
+                   |               |        |
+                   |               |        |
+                   |               |        |
+    -----------------------------------------------
+    scroll         | [estado]      | [spec] |
+                   |               |        |
+                   |               |        |
+                   |               |        |
+    -----------------------------------------------
+    enter          | [estado]      | [spec] |
+                   |               |        |
+                   |               |        |
+                   |               |        |
+    -----------------------------------------------
 
 
 
