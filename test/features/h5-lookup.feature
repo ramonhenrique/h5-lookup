@@ -168,6 +168,37 @@
                              | }                    |           |
     -------------------------------------------------------------------
 
+  Cenário: Teclas pressionadas
+  Dado lookup exibindo [estado]
+  Quando eu pressionar [caso]
+  Então ser exibido [spec]
+
+  Exemplos:
+    caso           | estado   | spec
+    ----------------------------------
+    seta pra cima  | [estado] | [spec]
+                   |          |
+                   |          |
+                   |          |
+    ----------------------------------
+    seta pra baixo | [estado] | [spec]
+                   |          |
+                   |          |
+                   |          |
+    ----------------------------------
+    scroll         | [estado] | [spec]
+                   |          |
+                   |          |
+                   |          |
+    ----------------------------------
+    enter          | [estado] | [spec]
+                   |          |
+                   |          |
+                   |          |
+    ----------------------------------
+
+
+
 #Cenário: seta pra cima, seta pra baixo e scroll
 #  Dado que eu tenho o lookup exibindo o [registro_existente]
 #  Quando eu pressionar a tecla pra cima
