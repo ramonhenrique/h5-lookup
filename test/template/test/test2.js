@@ -4,4 +4,5 @@ this.Input = function (driver) {
     });
 };
 var lookup = new Input(driver);
+
 lookup.input.typeText(___texto___);

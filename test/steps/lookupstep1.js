@@ -7,6 +7,11 @@ module.exports = function (library, expect, h5_test) {
         h5_test.replace('___fields___', estado);
         next();
     })
+    .given('que eu tenho o lookup exibindo o ([^\u0000]*)', function (estado, next) {
+        expect(estado, 'estado').to.be.an('string');
+        h5_test.replace('___fields___', estado);
+        next();
+    })
     .when('eu renderizar o (.*)', function (caso, next) {
         h5_test.replace('___caso___', caso);
         h5_test.file('app/lookup.view.js');
@@ -14,6 +19,13 @@ module.exports = function (library, expect, h5_test) {
         h5_test.pack('app', next);
     })
     .then('deverá ser exibido ([^\u0000]*)', function (spec, next) {
+        h5_test.wait('1s');
+        expect(spec).to.be.an('string');
+        h5_test.replace('___spec___', spec);
+        h5_test.check('test/test.spec');
+        next();
+    })
+    .then('deverá exibir ([^\u0000]*)', function (spec, next) {
         expect(spec).to.be.an('string');
         h5_test.replace('___spec___', spec);
         h5_test.check('test/test.spec');
@@ -24,7 +36,7 @@ module.exports = function (library, expect, h5_test) {
       h5_test.run("test/test.js");
       next();
     })
-    .when('digitar o (.*)', function (texto, next) {
+    .when('digitar o texto(.*)', function (texto, next) {
       h5_test.replace("___texto___", texto);
       h5_test.run("test/test2.js");
       next();
@@ -54,8 +66,18 @@ module.exports = function (library, expect, h5_test) {
       h5_test.run("test/test5.js");
       next();
     })
-    .when('pressionar (.*)', function (next) {
+    .when('pressionar (.*)', function (tecla, next) {
+      h5_test.replace("___tecla___", tecla);
+      h5_test.wait('3s');
       h5_test.run("test/test6.js");
+      next();
+    })
+    .when('eu pressionar seta pra baixo', function (next) {
+      next();
+    })
+    .when('eu pressionar a tecla Enter', function (next) {
+      h5_test.wait('1s');
+      h5_test.run("test/test7.js");
       next();
     })
 };

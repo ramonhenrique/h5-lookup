@@ -11,7 +11,9 @@ var mock_store_pessoas={
       {_id: 2, name: "Maria", doc: '456', mae: 1, sexo: 'F'},
       {_id: 3, name: "Carol", doc: '789', mae: 1, sexo: 'F'},
       {_id: 4, name: "Bernardo", doc: '', mae: 3, sexo: 'M'},
-      {_id: 5, name: "Julieta", doc: '', mae: 2, sexo: 'F'}
+      {_id: 5, name: "Julieta", doc: '', mae: 2, sexo: 'F'},
+      {_id: 6, name: "Teresa", doc: '', mae: 1, sexo: 'F'},
+      {_id: 7, name: "Julian", doc: '', mae: 2, sexo: 'M'}
     ]
 };
 

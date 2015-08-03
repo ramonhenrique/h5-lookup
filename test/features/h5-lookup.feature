@@ -89,7 +89,7 @@
   Dado que o estado da estória é [estado]
   Quando eu renderizar o [caso]
   E clicar na lupa pra pesquisar
-  Então deverá ser exibido [spec]
+  Então deverá exibir [spec]
 
   Exemplos:
     caso            | estado          | spec
@@ -120,7 +120,7 @@
   Cenário: Clicando 1x no icone de limpar - [caso]
   Dado que o estado da estória é [estado]
   Quando  eu renderizar o [caso]
-  E digitar o [texto]
+  E digitar o texto [texto]
   E quero apagar o texto digitado
   E eu clicar em limpar
   Então contecerá um rollback
@@ -146,7 +146,7 @@
   Cenário: limpar pressionando a tecla Esc - [caso]
   Dado que o estado da estória é [estado]
   Quando  eu renderizar o [caso]
-  E digitar o [texto]
+  E digitar o texto [texto]
   E quero apagar o texto digitado
   E eu pressionar a tecla Esc
   Então contecerá um rollback
@@ -164,6 +164,7 @@
   Cenário: Clicando 2 vezes no icone de limpar -  [caso]
   Dado que o estado da estória é [estado]
   Quando  eu renderizar o [caso]
+  E digitar o texto [texto]
   E eu quero apagar o texto digitado junto com o item já cadastrado
   E clicar 2 vezes em limpar
   Então deverá ser exibido [spec]
@@ -177,51 +178,59 @@
                              | }                    |           |
     -------------------------------------------------------------------
 
-  Cenário: Teclas pressionadas - [caso]
+  Cenário: Teclas seta pra cima e pra baixo pressionadas - [caso]
   Dado que o estado da estória é [estado]
   Quando eu renderizar o [caso]
-  E digitar o [texto]
-  E pressionar [caso]
+  E digitar o texto [texto]
+  E pressionar [tecla]
   Então deverá ser exibido [spec]
 
   Exemplos:
-    caso           | estado        | spec   | texto
-    -----------------------------------------------
+    caso           | estado        | spec           | texto | tecla
+    ------------------------------------------------------------------
+    seta pra cima  | id_pessoa:{   | input:         | 'Ber' | "\uE013"
+                   |   display:"", |   text is: Ber |       |
+                   |   _id:null    |                |       |
+                   | }             |                |       |
+    ------------------------------------------------------------------
+    seta pra baixo | id_pessoa:{   | input:         | 'A'   | "\uE015"
+                   |   display:"", |   text is: A   |       |
+                   |   _id:null    |                |       |
+                   | }             |                |       |
+    ------------------------------------------------------------------
+
+  Cenário: Selecionar pressionando tecla Enter - [caso]
+  Dado que eu tenho o lookup exibindo o [estado]
+  Quando eu renderizar o [caso]
+  E digitar o texto [texto]
+  E eu pressionar seta pra baixo
+  E eu pressionar a tecla Enter
+  Então deverá ser exibido [spec]
+
+  Exemplos:
+    caso  | estado        | spec                | texto
+    ---------------------------------------------------
     @only
-    seta pra cima  | id_pessoa:{   | [spec] | 'Ber'
-                   |   display:"", |        |
-                   |   _id:        |        |
-                   | }             |        |
-    -----------------------------------------------
-    seta pra baixo | [estado]      | [spec] |
-                   |               |        |
-                   |               |        |
-                   |               |        |
-    -----------------------------------------------
-    scroll         | [estado]      | [spec] |
-                   |               |        |
-                   |               |        |
-                   |               |        |
-    -----------------------------------------------
-    enter          | [estado]      | [spec] |
-                   |               |        |
-                   |               |        |
-                   |               |        |
-    -----------------------------------------------
+    enter | id_pessoa:{   | input:              | 'Ber'
+          |   display:"", |   text is: Bernardo |
+          |   _id:null    |                     |
+          | }             |                     |
+    ---------------------------------------------------
 
-
-
-#Cenário: seta pra cima, seta pra baixo e scroll
+#  Cenário: scroll
 #  Dado que eu tenho o lookup exibindo o [registro_existente]
 #  Quando eu pressionar a tecla pra cima
 #  Então mudar o foco de seleção dos itens exibidos no lookup
 #
-#Cenário: Tecla Enter
-#  Dado que eu tenho o lookup exibindo o [registro_existente]
-#  E algum item do lookup estiver com foco de seleção
-#  Quando eu pressionar a tecla Enter
-#  Então o [texto] passará a ser o item selecionado
-#
+#  Exemplos:
+#    caso  | estado        | spec                | texto
+#    ---------------------------------------------------
+#    enter | id_pessoa:{   | input:              | 'Ber'
+#          |   display:"", |   text is: Bernardo |
+#          |   _id:null    |                     |
+#          | }             |                     |
+#    ---------------------------------------------------
+
 #Cenário: Selecionar com click do mouse
 #  Dado que eu tenho o lookup exibindo uma lista com [registro_existente]
 #  Quando eu clicar em um item da lista 

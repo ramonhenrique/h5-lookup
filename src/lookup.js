@@ -83,9 +83,7 @@ var Lookup = React.createClass({
             }
         }());
 
-        var listResult=null;
-        (function DefineListResult(){
-            return listResult = self.state.searchResult ? <div className={classList} >{self.state.searchResult.length > 0 ?
+        var listResult= self.state.searchResult ? <div className={classList} >{self.state.searchResult.length > 0 ?
                 self.state.searchResult.map(function (item, index) {
                   var classItemList = 'h_lookup_itemList';
                   if(index == self.state.searchResultIndex){
@@ -101,7 +99,6 @@ var Lookup = React.createClass({
                            [React.createElement('span', {className: 'h_lookup_span_itemSearch'}, item.display)])
                 }) : <span className='h_lookup_span_notFoundText'>{notFoundText}</span>
             }</div> : <span className="fa fa-repeat gira"></span>
-        }());
 
         var listLookup = null;
         (function DefineLookup(){
