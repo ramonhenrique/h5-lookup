@@ -68,11 +68,11 @@
     ------------------------------------------------------------------------------
     com resultado | id_pessoa:{   | list:                                  |  'a'
                   |   display:"", |   contains: itemList                   |
-                  |   _id:null    |   inside: input_wrap                   |
+                  |   _id:null    |   inside partly: input_wrap            |
                   | }             |   below: input                         |
                   |               | itemList:                              |
                   |               |   inside partly: divList               |
-                  |               |   below: list -180px                   |
+                  |               |   below: list -200px                   |
                   |               |   below: input                         |
     ------------------------------------------------------------------------------
     sem resultado | id_pessoa:{   | list:                                  | 'asd'
@@ -104,6 +104,10 @@
                     |                 |   below: input
                     |                 | input:
                     |                 |   text is:
+                    |                 | icon_lupa
+                    |                 |   inside: input_wrap
+                    |                 |   below: input_label
+                    |                 |   above: dropDown
     -------------------------------------------------------------
     Campo com texto | id_pessoa:{     | dropDown:
                     |   display:"Be", |   contains: loading
@@ -186,21 +190,21 @@
   Então deverá ser exibido [spec]
 
   Exemplos:
-    caso           | estado        | spec           | texto | tecla
-    ------------------------------------------------------------------
-    seta pra cima  | id_pessoa:{   | input:         | 'Ber' | "\uE013"
-                   |   display:"", |   text is: Ber |       |
-                   |   _id:null    |                |       |
-                   | }             |                |       |
-    ------------------------------------------------------------------
-    seta pra baixo | id_pessoa:{   | input:         | 'A'   | "\uE015"
-                   |   display:"", |   text is: A   |       |
-                   |   _id:null    |                |       |
-                   | }             |                |       |
-    ------------------------------------------------------------------
+    caso           | estado        | spec                                              | texto | tecla
+    -----------------------------------------------------------------------------------------------------
+    seta pra cima  | id_pessoa:{   | input:                                            | 'Ber' | "\uE013"
+                   |   display:"", |   text is: Ber                                    |       |
+                   |   _id:null    |                                                   |       |
+                   | }             |                                                   |       |
+    -----------------------------------------------------------------------------------------------------
+    seta pra baixo | id_pessoa:{   | input:                                            | 'A'   | "\uE015"
+                   |   display:"", |   text is: A                                      |       |
+                   |   _id:null    | selected:                                         |       |
+                   | }             |   css background-color is: rgba(224, 224, 224, 1) |       |
+    -----------------------------------------------------------------------------------------------------
 
   Cenário: Selecionar pressionando tecla Enter - [caso]
-  Dado que eu tenho o lookup exibindo o [estado]
+  Dado que eu tenho o lookup com o [estado]
   Quando eu renderizar o [caso]
   E digitar o texto [texto]
   E eu pressionar seta pra baixo
@@ -210,37 +214,67 @@
   Exemplos:
     caso  | estado        | spec                | texto
     ---------------------------------------------------
-    @only
     enter | id_pessoa:{   | input:              | 'Ber'
           |   display:"", |   text is: Bernardo |
           |   _id:null    |                     |
           | }             |                     |
     ---------------------------------------------------
 
-#  Cenário: scroll
-#  Dado que eu tenho o lookup exibindo o [registro_existente]
-#  Quando eu pressionar a tecla pra cima
-#  Então mudar o foco de seleção dos itens exibidos no lookup
-#
-#  Exemplos:
-#    caso  | estado        | spec                | texto
-#    ---------------------------------------------------
-#    enter | id_pessoa:{   | input:              | 'Ber'
-#          |   display:"", |   text is: Bernardo |
-#          |   _id:null    |                     |
-#          | }             |                     |
-#    ---------------------------------------------------
+  Cenário: Selecionar com click do mouse - [caso]
+  Dado que eu tenho o lookup com o [estado]
+  Quando eu renderizar o [caso]
+  E digitar o texto [texto]
+  E o lookup exibir a lista com o resultado
+  E eu clicar em um item da lista
+  Então deverá ser exibido [spec]
 
-#Cenário: Selecionar com click do mouse
-#  Dado que eu tenho o lookup exibindo uma lista com [registro_existente]
-#  Quando eu clicar em um item da lista 
-#  Então o [texto] passará a ser o item selecionado
-#
-#Cenário: validações semelhante ao h5-input
-#  Dado 
-#  Quando
-#  Então
-#
+  Exemplos:
+    caso                  | estado        | spec             | texto
+    ----------------------------------------------------------------
+    selecoionar com click | id_pessoa:{   | input:           | 'a'
+                          |   display:"", |   text is: Carol |
+                          |   _id:null    |                  |
+                          | }             |                  |
+    ----------------------------------------------------------------
+
+  Cenário: scroll - [caso]
+  Dado que eu tenho o lookup com o [estado]
+  Quando eu renderizar o [caso]
+  E digitar o texto [texto]
+  E girar o scroll do mouse
+  Então deverá ser exibido [spec]
+
+  Exemplos:
+    caso           | estado        | spec                             | texto
+    -------------------------------------------------------------------------
+    fazendo scroll | id_pessoa:{   | input:                           | 'a'
+                   |   display:"", |   text is: houve o evento scroll |
+                   |   _id:null    |                                  |
+                   | }             |                                  |
+    -------------------------------------------------------------------------
+
+  Cenário: validações semelhante ao h5-input - [caso]
+  Dado que o estado da estória é [estado]
+  Quando eu renderizar o [caso]
+  E o campo for requerido
+  E eu sair do focu
+  Então deverá ser exibido [spec]
+
+  Exemplos:
+    caso                   | estado                   | spec
+    -------------------------------------------------------------
+    @only
+    saindo do focu com TAB | _autofocus: 'id_pessoa', | input:
+                           | id_pessoa:{              |  text is:
+                           |   display:"",            |
+                           |   _id:null               |
+                           | },                       |
+                           | validate:[requerido]     |
+                           |                          |
+    -------------------------------------------------------------
+
+
+
 #Cenário: validação lookup requerido
 #  Dado 
 #  Quando

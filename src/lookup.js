@@ -42,7 +42,7 @@ var Lookup = React.createClass({
         var classPaper = this.isDropDown() ? ('animationDropDown h_lookup_paper ' + textAlignPaper) : ('h_lookup_paper ' + textAlignPaper);
         var classDivList = 'h_lookup_divList'
         var classList = 'h_lookup_list';
-        var classItemList = 'h_lookup_itemList';
+
 
         var propsTextField = {};
         (function DefinePropsTextField(){
@@ -89,26 +89,22 @@ var Lookup = React.createClass({
         (function defineListResult(){
             return listResult = self.state.searchResult ? <div className={classList} >{self.state.searchResult.length > 0 ?
                 self.state.searchResult.map(function (item, index) {
+                  var classItemList = 'h_lookup_itemList';
                   if(index == self.state.searchResultIndex){
                       classItemList = classItemList + ' selected';
                   }
-                  var propsItemList = definePropsItemList(index);
+                  var propsItemList={};
+                  propsItemList.onClick = function(e){
+                     e.preventDefault();
+                     self._click(index);
+                  };
+                  propsItemList.className = classItemList;
+                  propsItemList.id = index;
                   return React.createElement('div', propsItemList,
                            [React.createElement('span', {className: 'h_lookup_span_itemSearch'}, item.display)])
                 }) : <span className='h_lookup_span_notFoundText'>{notFoundText}</span>
             }</div> : <span className="fa fa-repeat gira"></span>
         }());
-
-        function definePropsItemList(index){
-            var propsItemList={};
-            propsItemList.onClick = function(e){
-               e.preventDefault();
-               self._click(index);
-            };
-            propsItemList.className = classItemList;
-            propsItemList.id = index;
-            return propsItemList;
-        }
 
         var listLookup = null;
         (function DefineLookup(){
@@ -333,9 +329,12 @@ var Lookup = React.createClass({
         }
         this.setState({});
     },
-    validate: function(field, selected){
+    validate: function(field, selected, type){
         var state = this.props.store;
-//        this.props.store.validate(this.props.field, selected.display)
+        for (var i =0; i<=this.props.store.validate.length; i++){
+            if (this.props.store.validate[i].name == type)
+                this.props.store.validate[i](this.props.field, selected.display? selected.display : selected)
+        }
     },
     selectItem: function(){
         var selected = this.state.searchResult[this.state.searchResultIndex];
@@ -344,7 +343,7 @@ var Lookup = React.createClass({
         var field = this.getEditingValue()
         field.value._id = selected._id;
         field.value.display = selected.display;
-//        this.validate(field, selected);
+//        this.validate(field, selected, );
         this.setState({
             searchingText: null,
             searchResult: [],
@@ -379,8 +378,10 @@ var Lookup = React.createClass({
     },
     blur: function(e){
         var self = this;
+        var field = this.getEditingValue()
         setTimeout(function(){
             self.closeDropDownlookup();
+            self.validate(field,null, "requerido");
         }, 200);
         this.setState({focus: false})
     },

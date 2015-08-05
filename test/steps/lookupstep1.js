@@ -7,7 +7,7 @@ module.exports = function (library, expect, h5_test) {
         h5_test.replace('___fields___', estado);
         next();
     })
-    .given('que eu tenho o lookup exibindo o ([^\u0000]*)', function (estado, next) {
+    .given('que eu tenho o lookup com o ([^\u0000]*)', function (estado, next) {
         expect(estado, 'estado').to.be.an('string');
         h5_test.replace('___fields___', estado);
         next();
@@ -80,7 +80,28 @@ module.exports = function (library, expect, h5_test) {
       h5_test.run("test/test7.js");
       next();
     })
+    .when('girar o scroll do mouse', function (next) {
+      h5_test.wait('2s');
+      h5_test.inject('test/test8.js');
+      next();
+    })
+    .when('o lookup exibir a lista com o resultado', function (next) {
+      next();
+    })
+    .when('eu clicar em um item da lista', function (next) {
+      h5_test.wait('2s');
+      h5_test.run('test/test9.js');
+      next();
+    })
+    .when('o campo for requerido', function (next) {
+      next();
+    })
+    .when('eu sair do focu', function (next) {
+      h5_test.run('test/test10.js');
+      next();
+    })
 };
+
 
 
 

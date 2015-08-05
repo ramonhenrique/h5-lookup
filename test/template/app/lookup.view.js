@@ -5,6 +5,16 @@ window.React = React;
 window.hsession = {
     language: "pt_br"
 };
+
+function requerido(field, value) {
+    if (!value) {
+        mock_store.fields[field].error = 'requerido';
+
+    } else {
+        mock_store.fields[field].error = null;
+    }
+}
+
 var mock_store_pessoas={
   peoples:[
       {_id: 1, name: "Ana", doc: '123', mae: null, sexo: 'F'},
@@ -37,6 +47,8 @@ var mock_store =  {
         }, 200);
     }
 };
+
+mock_store.validate = mock_store.fields.validate ? mock_store.fields.validate : {};
 
 var View = React.createClass({
     render: function () {
