@@ -48,14 +48,14 @@ var Lookup = React.createClass({
         (function DefinePropsTextField(){
             propsTextField.fullWidth = true;
             propsTextField.value = lookupdata.display != '' ? lookupdata.display : null;
-            propsTextField.errorText = field.error ? field.error : '';
+            propsTextField.errorText = state.fields[self.props.field].error ? state.fields[self.props.field].error : '';
             propsTextField.floatingLabelText = self.props.floatingLabelText;
             propsTextField.hintText = lookupdata.display == '' ? self.props.hintText : null;
             propsTextField.onChange = self.changed;
             propsTextField.onKeyUp = self.keyUp;
             propsTextField.onKeyDown = self.keyDown;
             propsTextField.ref = self.props.field;
-            propsTextField.className = self.state.focus ? 'h_lookup_textField_focus input inputleft input_'+ self.props.field : 'h_lookup_textField input inputleft input_'+ self.props.field;
+            propsTextField.className = self.state.focus ? 'h_lookup_textField_focus input inputleft input_'+ self.props.field + (state.fields[self.props.field].error ? ' input_error' : '') : 'h_lookup_textField input inputleft input_'+ self.props.field;
             propsTextField.onFocus = self.focus;
             propsTextField.autoFocus = state.fields._autofocus ? true : false;
             propsTextField.onBlur = self.blur;
@@ -64,8 +64,8 @@ var Lookup = React.createClass({
         var classNameLabel = null;
         (function DefineClassNameLabel(){
             return classNameLabel = self.state.focus || propsTextField.value != null ?
-                'h_lookup_LabelComValue ' + (self.state.focus ? field.error ? 'erro' : 'focus' :  field.error ? 'erro' : ''):
-                  'h_lookup_LabelSemValue ' + (field.error ? 'erro' : '')
+                'h_lookup_LabelComValue ' + (self.state.focus ? state.fields[self.props.field].error ? 'erro' : 'focus' :  state.fields[self.props.field].error ? 'erro' : ''):
+                  'h_lookup_LabelSemValue ' + (state.fields[self.props.field].error ? 'erro' : '')
         }());
 
         var propsIconSearch = {};
@@ -142,7 +142,7 @@ var Lookup = React.createClass({
         var input_placeholder = function(){
           return [
             !propsTextField.value && self.state.focus || propsTextField.value == '' && self.state.focus ?
-            React.createElement('label', {className: ('input_placeholder h_lookup_LabelSemValue '+ (field.error ? 'erro' : ''))}, [self.props.hintText]) : null
+            React.createElement('label', {className: ('input_placeholder h_lookup_LabelSemValue ')}, [self.props.hintText]) : null
           ];
         };
         var input = function(){
@@ -153,7 +153,7 @@ var Lookup = React.createClass({
 
         var input_error = function(){
           return [
-            field.error ? React.createElement('span', {className: 'input_error h_lookup_span_error'}, [field.error]) : null //css h_lookup_span_error -> msg_error
+            state.fields[self.props.field].error ? React.createElement('span', {className: 'input_error h_lookup_span_error'}, [state.fields[self.props.field].error]) : null //css h_lookup_span_error -> msg_error
           ];
         };
 
@@ -329,12 +329,20 @@ var Lookup = React.createClass({
         }
         this.setState({});
     },
-    validate: function(field, selected, type){
+    validate: function(field, selected){
         var state = this.props.store;
-        for (var i =0; i<=this.props.store.validate.length; i++){
-            if (this.props.store.validate[i].name == type)
-                this.props.store.validate[i](this.props.field, selected.display? selected.display : selected)
+        for (var i =0; i<this.props.store.validate.length; i++){
+            if (selected)
+                this.props.store.validate[i](this.props.field, selected);
+            else if (field.display)
+                this.props.store.validate[i](this.props.field, field.display);
+            else if(field.value.display)
+                this.props.store.validate[i](this.props.field, field.value.display);
+            else
+                this.props.store.validate[i](this.props.field, null)
         }
+        if(!state.fields[this.props.field].error)
+           state.fields[this.props.field].error = null
     },
     selectItem: function(){
         var selected = this.state.searchResult[this.state.searchResultIndex];
@@ -343,7 +351,7 @@ var Lookup = React.createClass({
         var field = this.getEditingValue()
         field.value._id = selected._id;
         field.value.display = selected.display;
-//        this.validate(field, selected, );
+        this.validate(field, selected);
         this.setState({
             searchingText: null,
             searchResult: [],
@@ -378,10 +386,13 @@ var Lookup = React.createClass({
     },
     blur: function(e){
         var self = this;
-        var field = this.getEditingValue()
+        var field = this.getEditingValue();
+        var state = this.props.store;
         setTimeout(function(){
             self.closeDropDownlookup();
-            self.validate(field,null, "requerido");
+            self.validate(field,null);
+            if(state.fields[self.props.field].error)
+              self.setState({focus: true})
         }, 200);
         this.setState({focus: false})
     },

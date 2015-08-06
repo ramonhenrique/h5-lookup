@@ -15,6 +15,7 @@ itemList           css   .h_lookup_list .h_lookup_itemList
 notFoundText       css   .h_lookup_span_notFoundText
 dropDown           css   .listaanimationDropDown 
 loading            css   .gira
+span_error         css   .h_lookup_span_error
 ===========================================
 
 ___spec___

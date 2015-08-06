@@ -262,57 +262,21 @@
 
   Exemplos:
     caso                   | estado                   | spec
-    -------------------------------------------------------------
+    ------------------------------------------------------------------------------------------
     @only
     saindo do focu com TAB | _autofocus: 'id_pessoa', | input:
-                           | id_pessoa:{              |  text is:
-                           |   display:"",            |
-                           |   _id:null               |
-                           | },                       |
-                           | validate:[requerido]     |
-                           |                          |
-    -------------------------------------------------------------
-
-
-
-#Cenário: validação lookup requerido
-#  Dado 
-#  Quando
-#  Então
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#Cenário: Renderização com lookup fechado com valor
-#  Dado que eu tenho um estado em uma estoria
-#  E tenho um valor ja cadastrado
-#  Quando eu renderizar [render]
-#  Entao validar [spec]
-
-#Cenário: Renderização com lookup aberto - [caso]
-#  Dado que o estado da estória é [estado]
-#  Quando eu renderizar [render]
-#  Entao exibirá o resultado
-#  E validar [spec]
-
-#Cenário: Renderização pesquisando não encontrou
-#  Dado que eu tenho um estado em uma estoria
-#  Quando não encontrar [item] com o [texto]
-#  Então mostrará a [mensagem]
-#
-
+                           | id_pessoa:{              |   text is:
+                           |   display:"",            | input_label:
+                           |   _id:null               |   css color is: rgba(255, 0, 0, 1)
+                           | },                       | input_placeholder:
+                           | validate:[requerido]     |   css color is: rgba(139, 139, 139, 1)
+                           |                          |   text is: Selecione valor default
+                           |                          | span_error
+                           |                          |   inside partly: container
+                           |                          |   text is: requerido
+                           |                          |   css color is: rgba(255, 0, 0, 1)
+                           |                          |   below: input
+    ------------------------------------------------------------------------------------------
 
 #testar required, dever estar no field
 #if(field.validations){

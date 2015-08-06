@@ -7,12 +7,13 @@ window.hsession = {
 };
 
 function requerido(field, value) {
-    if (!value) {
+    if (!value)
         mock_store.fields[field].error = 'requerido';
+}
 
-    } else {
-        mock_store.fields[field].error = null;
-    }
+function mae(field, value){
+    if (value || value.sexo != 'F')
+        mock_store.fields[field].error = 'requerido sexo feminino';
 }
 
 var mock_store_pessoas={
